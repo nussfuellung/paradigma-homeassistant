@@ -3,7 +3,7 @@
 ![Paradigma Integration Logo](logo.png)
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://github.com/hacs/integration)
-[![version](https://img.shields.io/github/v/release/DEIN_GITHUB_USER/paradigma-homeassistant?include_prereleases)](https://github.com/DEIN_GITHUB_USER/paradigma-homeassistant/releases)
+[![version](https://img.shields.io/github/v/release/nussfuellung/paradigma-homeassistant?include_prereleases)](https://github.com/nussfuellung/paradigma-homeassistant/releases)
 
 This is a custom integration for **Paradigma** heating systems (SystaSmartC II / SystaComfort II) for Home Assistant. It communicates locally via **Modbus TCP**.
 
