@@ -1,0 +1,55 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to Paradigma Device",
+        "description": "Enter Modbus TCP details.",
+        "data": {
+          "name": "Name",
+          "host": "IP Address",
+          "port": "Port",
+          "slave_id": "Unit ID",
+          "scan_interval": "Interval (sec)"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Connection failed."
+    },
+    "abort": {
+      "already_configured": "Device already configured"
+    }
+  },
+  "entity": {
+    "sensor": {
+      "outdoor_temp": { "name": "Outdoor Temperature" },
+      "flow_hk1": { "name": "Flow HK1" },
+      "return_hk1": { "name": "Return HK1" },
+      "dhw_temp": { "name": "DHW Temperature" },
+      "buffer_top": { "name": "Buffer Top" },
+      "buffer_bottom": { "name": "Buffer Bottom" },
+      "flow_hk2": { "name": "Flow HK2" },
+      "return_hk2": { "name": "Return HK2" },
+      "collector_temp": { "name": "Collector Temperature" },
+      "solar_power": { "name": "Solar Power" },
+      "solar_day": { "name": "Solar Daily Yield" },
+      "solar_total": { "name": "Solar Total Yield" },
+      "status_ww": { "name": "Status DHW" },
+      "status_hk1": { "name": "Status Heating Circuit 1" },
+      "status_hk2": { "name": "Status Heating Circuit 2" }
+    },
+    "number": {
+      "setpoint_flow_hk1": { "name": "Target Flow HK1" },
+      "setpoint_flow_hk2": { "name": "Target Flow HK2" },
+      "setpoint_buffer_top": { "name": "Target Buffer Top" },
+      "setpoint_boiler": { "name": "Target Boiler" }
+    },
+    "switch": {
+      "dhw_enable": { "name": "DHW Enable" },
+      "circ_enable": { "name": "Circulation Enable" }
+    },
+    "water_heater": {
+      "dhw": { "name": "Domestic Hot Water" }
+    }
+  }
+}

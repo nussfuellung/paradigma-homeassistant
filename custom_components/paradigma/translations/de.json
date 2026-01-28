@@ -1,0 +1,55 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Verbindung zum Paradigma Gerät",
+        "description": "Bitte geben Sie die Modbus TCP Verbindungsdaten ein.",
+        "data": {
+          "name": "Name",
+          "host": "IP-Adresse",
+          "port": "Port",
+          "slave_id": "Unit ID",
+          "scan_interval": "Intervall (Sek.)"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Verbindung fehlgeschlagen."
+    },
+    "abort": {
+      "already_configured": "Gerät ist bereits konfiguriert"
+    }
+  },
+  "entity": {
+    "sensor": {
+      "outdoor_temp": { "name": "Außentemperatur" },
+      "flow_hk1": { "name": "Vorlauf HK1" },
+      "return_hk1": { "name": "Rücklauf HK1" },
+      "dhw_temp": { "name": "Warmwasser Temperatur" },
+      "buffer_top": { "name": "Puffer Oben" },
+      "buffer_bottom": { "name": "Puffer Unten" },
+      "flow_hk2": { "name": "Vorlauf HK2" },
+      "return_hk2": { "name": "Rücklauf HK2" },
+      "collector_temp": { "name": "Kollektortemperatur" },
+      "solar_power": { "name": "Solar Leistung" },
+      "solar_day": { "name": "Solar Tagesertrag" },
+      "solar_total": { "name": "Solar Gesamtertrag" },
+      "status_ww": { "name": "Status Warmwasser" },
+      "status_hk1": { "name": "Status Heizkreis 1" },
+      "status_hk2": { "name": "Status Heizkreis 2" }
+    },
+    "number": {
+      "setpoint_flow_hk1": { "name": "Sollwert Vorlauf HK1" },
+      "setpoint_flow_hk2": { "name": "Sollwert Vorlauf HK2" },
+      "setpoint_buffer_top": { "name": "Sollwert Puffer Oben" },
+      "setpoint_boiler": { "name": "Sollwert Kessel" }
+    },
+    "switch": {
+      "dhw_enable": { "name": "Warmwasser Freigabe" },
+      "circ_enable": { "name": "Zirkulation Freigabe" }
+    },
+    "water_heater": {
+      "dhw": { "name": "Warmwasser" }
+    }
+  }
+}
