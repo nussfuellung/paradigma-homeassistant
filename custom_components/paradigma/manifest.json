@@ -1,8 +1,8 @@
 {
   "domain": "paradigma",
   "name": "Paradigma",
-  "config_flow": true,
   "codeowners": ["@nussfuellung"],
+  "config_flow": true,
   "documentation": "https://github.com/nussfuellung/paradigma-homeassistant",
   "iot_class": "local_polling",  
   "requirements": ["pymodbus>=3.0.0"],
