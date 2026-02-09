@@ -15,7 +15,7 @@ from .const import DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
 
-# Status Mapping Texte laut PDF Seite 15/16 [cite: 217, 221, 228]
+# Status Mapping Texte
 STATUS_HK = {
     0: "Aus", 1: "Heizbetrieb", 2: "Anschieben", 3: "Vorhaltezeit",
     4: "Gesperrt", 5: "Inbetriebnahme", 6: "Frostschutz", 7: "Estrich",
@@ -28,8 +28,7 @@ STATUS_WW = {
 }
 
 SENSOR_TYPES = [
-    # Key, Unit, Class, Factor, RegisterType, RegisterOffset (siehe PDF Seite 12/13/14)
-    # 30001 entspricht Offset 0 [cite: 196]
+    # Key, Unit, Class, Factor, RegisterType, RegisterOffset
     ("outdoor_temp", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, 0.1, "input", 0),
     ("flow_hk1", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, 0.1, "input", 1),
     ("return_hk1", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, 0.1, "input", 2),
@@ -40,12 +39,12 @@ SENSOR_TYPES = [
     ("return_hk2", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, 0.1, "input", 8),
     ("collector_temp", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, 0.1, "input", 11),
     
-    # Holding Registers (40001 Start) [cite: 210]
+    # Holding Registers
     ("solar_power", UnitOfPower.KILO_WATT, SensorDeviceClass.POWER, 0.1, "holding", 19), 
     ("solar_day", UnitOfEnergy.KILO_WATT_HOUR, SensorDeviceClass.ENERGY, 1.0, "holding", 20),
     ("solar_total", UnitOfEnergy.KILO_WATT_HOUR, SensorDeviceClass.ENERGY, 1.0, "holding", 21),
     
-    # Status Registers [cite: 210]
+    # Status Registers
     ("status_ww", None, None, 1, "holding_status_ww", 34),
     ("status_hk1", None, None, 1, "holding_status_hk", 36),
     ("status_hk2", None, None, 1, "holding_status_hk", 37),
@@ -68,17 +67,22 @@ class ParadigmaDataCoordinator(DataUpdateCoordinator):
 
     async def _async_update_data(self):
         data = {}
-        # Lese Input Registers (Bereich Temperaturfühler)
-        inputs = await self.hass.async_add_executor_job(self.hub.read_input_registers, 0, 20)
-        if inputs:
-            for i, val in enumerate(inputs):
-                data[f"input_{i}"] = val
-        
-        # Lese Holding Registers (Bereich Solar & Status)
-        holdings = await self.hass.async_add_executor_job(self.hub.read_holding_registers, 0, 50)
-        if holdings:
-            for i, val in enumerate(holdings):
-                data[f"holding_{i}"] = val
+        try:
+            # Lese Input Registers (Bereich Temperaturfühler)
+            # Wir lesen sicherheitshalber nur 20 Register, um Fehler zu vermeiden
+            inputs = await self.hass.async_add_executor_job(self.hub.read_input_registers, 0, 20)
+            if inputs:
+                for i, val in enumerate(inputs):
+                    data[f"input_{i}"] = val
+            
+            # Lese Holding Registers (Bereich Solar & Status)
+            holdings = await self.hass.async_add_executor_job(self.hub.read_holding_registers, 0, 50)
+            if holdings:
+                for i, val in enumerate(holdings):
+                    data[f"holding_{i}"] = val
+        except Exception as e:
+            _LOGGER.error("Fehler beim Abrufen der Daten: %s", e)
+            
         return data
 
 class ParadigmaSensor(CoordinatorEntity, SensorEntity):
@@ -94,14 +98,21 @@ class ParadigmaSensor(CoordinatorEntity, SensorEntity):
         self._attr_has_entity_name = True
         self._attr_translation_key = self._key
         self._attr_unique_id = f"{entry.entry_id}_{self._type}_{self._reg_idx}"
-        self._attr_state_class = SensorStateClass.MEASUREMENT if self._unit else None
+        
+        # FIX: Korrekte State Class Zuweisung
+        if self._dev_class == SensorDeviceClass.ENERGY:
+            self._attr_state_class = SensorStateClass.TOTAL_INCREASING
+        elif self._unit is not None:
+            self._attr_state_class = SensorStateClass.MEASUREMENT
+        else:
+            self._attr_state_class = None
 
     @property
     def native_value(self):
         key = f"input_{self._reg_idx}" if "input" in self._type else f"holding_{self._reg_idx}"
         raw = self.coordinator.data.get(key)
         
-        if raw is None or raw == 0x8000 or raw == 0xFFFF: # Ungültige Werte laut PDF Seite 6 [cite: 48]
+        if raw is None or raw == 0x8000 or raw == 0xFFFF:
             return None
 
         if "status_hk" in self._type:
@@ -109,7 +120,6 @@ class ParadigmaSensor(CoordinatorEntity, SensorEntity):
         if "status_ww" in self._type:
             return STATUS_WW.get(raw, str(raw))
 
-        # Vorzeichenbehandlung (Signed Int16)
         if raw > 32767: raw -= 65536
         return raw * self._factor
 
