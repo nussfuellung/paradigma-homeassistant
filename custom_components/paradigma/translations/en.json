@@ -2,22 +2,42 @@
   "config": {
     "step": {
       "user": {
-        "title": "Connect to Paradigma Device",
-        "description": "Enter Modbus TCP details.",
+        "title": "Connect Paradigma Heating",
         "data": {
-          "name": "Name",
           "host": "IP Address",
           "port": "Port",
-          "slave_id": "Unit ID",
-          "scan_interval": "Interval (sec)"
+          "slave_id": "Slave ID / Unit ID",
+          "solar_installed": "Solar System Installed",
+          "hk2_installed": "Heating Circuit 2 Installed",
+          "pool_installed": "Pool System Installed",
+          "room_sensor_installed": "Room Sensors Installed",
+          "boiler_installed": "Boiler (Gas/Oil) Installed",
+          "wood_installed": "Wood/Pellet Boiler Installed",
+          "scan_interval": "Update Interval (Seconds)"
         }
       }
     },
     "error": {
-      "cannot_connect": "Connection failed."
-    },
-    "abort": {
-      "already_configured": "Device already configured"
+      "cannot_connect": "Connection failed"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Paradigma Options",
+        "data": {
+          "host": "IP Address",
+          "port": "Port",
+          "slave_id": "Slave ID",
+          "solar_installed": "Solar System Installed",
+          "hk2_installed": "Heating Circuit 2 Installed",
+          "pool_installed": "Pool System Installed",
+          "room_sensor_installed": "Room Sensors Installed",
+          "boiler_installed": "Boiler (Gas/Oil) Installed",
+          "wood_installed": "Wood/Pellet Boiler Installed",
+          "scan_interval": "Update Interval (Seconds)"
+        }
+      }
     }
   },
   "entity": {
@@ -28,28 +48,48 @@
       "dhw_temp": { "name": "DHW Temperature" },
       "buffer_top": { "name": "Buffer Top" },
       "buffer_bottom": { "name": "Buffer Bottom" },
+      "circ_return_temp": { "name": "Circulation Return" },
+      "room_temp_hk1": { "name": "Room Temp HK1" },
+      "room_temp_hk2": { "name": "Room Temp HK2" },
+      "boiler_flow": { "name": "Boiler Flow" },
+      "boiler_return": { "name": "Boiler Return" },
+      "boiler_hours": { "name": "Boiler Hours" },
+      "boiler_starts": { "name": "Boiler Starts" },
+      "wood_flow": { "name": "Wood Flow" },
+      "wood_return": { "name": "Wood Return" },
+      "wood_buffer_top": { "name": "Wood Buffer Top" },
+      "pellet_hours": { "name": "Pellet Hours" },
       "flow_hk2": { "name": "Flow HK2" },
       "return_hk2": { "name": "Return HK2" },
       "collector_temp": { "name": "Collector Temperature" },
       "solar_power": { "name": "Solar Power" },
-      "solar_day": { "name": "Solar Daily Yield" },
-      "solar_total": { "name": "Solar Total Yield" },
+      "solar_day": { "name": "Solar Yield Day" },
+      "solar_total": { "name": "Solar Yield Total" },
+      "pool_temp": { "name": "Pool Temperature" },
+      "pool_flow": { "name": "Pool Flow" },
+      "pool_return": { "name": "Pool Return" },
       "status_ww": { "name": "Status DHW" },
-      "status_hk1": { "name": "Status Heating Circuit 1" },
-      "status_hk2": { "name": "Status Heating Circuit 2" }
+      "status_circ": { "name": "Status Circulation" },
+      "status_hk1": { "name": "Status HK1" },
+      "status_hk2": { "name": "Status HK2" },
+      "status_solar": { "name": "Status Solar" },
+      "status_pool": { "name": "Status Pool" },
+      "status_boiler": { "name": "Status Boiler" },
+      "status_wood": { "name": "Status Wood Boiler" },
+      "status_pellet": { "name": "Status Pellet Stove" }
     },
     "number": {
-      "setpoint_flow_hk1": { "name": "Target Flow HK1" },
-      "setpoint_flow_hk2": { "name": "Target Flow HK2" },
-      "setpoint_buffer_top": { "name": "Target Buffer Top" },
-      "setpoint_boiler": { "name": "Target Boiler" }
+      "setpoint_flow_hk1": { "name": "Setpoint Flow HK1" },
+      "setpoint_flow_hk2": { "name": "Setpoint Flow HK2" },
+      "setpoint_buffer_top": { "name": "Setpoint Buffer Top" },
+      "setpoint_boiler": { "name": "Setpoint Boiler" }
     },
     "switch": {
       "dhw_enable": { "name": "DHW Enable" },
       "circ_enable": { "name": "Circulation Enable" }
     },
     "water_heater": {
-      "dhw": { "name": "Domestic Hot Water" }
+      "dhw": { "name": "DHW Setpoint" }
     }
   }
 }
