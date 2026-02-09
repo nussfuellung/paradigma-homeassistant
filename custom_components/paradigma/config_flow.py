@@ -14,6 +14,7 @@ from .hub import ParadigmaHub
 _LOGGER = logging.getLogger(__name__)
 
 class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
+    """Handle a config flow for Paradigma."""
     VERSION = 1
 
     @staticmethod
@@ -24,6 +25,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     async def async_step_user(self, user_input=None):
         errors = {}
         if user_input is not None:
+            # Verbindungstest vor dem Erstellen
             hub = ParadigmaHub(self.hass, user_input[CONF_NAME], user_input[CONF_HOST], user_input[CONF_PORT], user_input[CONF_SLAVE_ID])
             connected = await self.hass.async_add_executor_job(hub.connect)
             hub.close()
@@ -52,15 +54,26 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         )
 
 class OptionsFlowHandler(config_entries.OptionsFlow):
+    """Handle options."""
     def __init__(self, config_entry):
+        # Wir speichern hier keine Referenz auf config_entry, da sie in self.config_entry verfügbar ist
         pass
 
     async def async_step_init(self, user_input=None):
+        """Manage the options."""
         if user_input is not None:
-            self.hass.config_entries.async_update_entry(self.config_entry, data=user_input)
-            return self.async_create_entry(title="", data=user_input)
+            # WICHTIG: Wir kopieren die ALTEN Daten (inkl. Name) und überschreiben nur die Änderungen!
+            new_data = self.config_entry.data.copy()
+            new_data.update(user_input)
 
+            self.hass.config_entries.async_update_entry(
+                self.config_entry, data=new_data
+            )
+            return self.async_create_entry(title="", data=new_data)
+
+        # Bestehende Daten laden, um sie im Formular anzuzeigen
         data = self.config_entry.data
+        
         return self.async_show_form(
             step_id="init",
             data_schema=vol.Schema({
