@@ -52,20 +52,26 @@ class ParadigmaHub:
         return res.bits if res else None
 
     def write_register(self, address, value):
+        """Write Single Register - Forced as Multiple (FC 0x10)."""
         with self._lock:
             try:
+                # WICHTIG: Paradigma kann kein 'write_register' (0x06).
+                # Wir müssen 'write_registers' (0x10) nutzen und den Wert als Liste [value] übergeben.
                 try:
-                    self._client.write_register(address, value, device_id=self._slave_id)
+                    res = self._client.write_registers(address=address, values=[value], device_id=self._slave_id)
                 except TypeError:
                     try:
-                        self._client.write_register(address, value, slave=self._slave_id)
+                        res = self._client.write_registers(address, [value], slave=self._slave_id)
                     except TypeError:
-                        self._client.write_register(address, value, unit=self._slave_id)
-                return True
-            except Exception:
+                        res = self._client.write_registers(address, [value], unit=self._slave_id)
+                
+                return not res.isError()
+            except Exception as e:
+                _LOGGER.error(f"Fehler beim Schreiben (Register {address}): {e}")
                 return False
 
     def write_coil(self, address, value):
+        """Write Single Coil."""
         with self._lock:
             try:
                 try:
