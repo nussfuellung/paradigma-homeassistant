@@ -3,6 +3,7 @@ import asyncio
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_HOST, CONF_PORT, CONF_NAME
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers import device_registry as dr
 
 from .const import DOMAIN, CONF_SLAVE_ID, PLATFORMS
 from .hub import ParadigmaHub
@@ -23,6 +24,18 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         return False
 
     hass.data[DOMAIN][entry.entry_id] = hub
+
+    # GERÄT REGISTRIEREN
+    device_registry = dr.async_get(hass)
+    device_registry.async_get_or_create(
+        config_entry_id=entry.entry_id,
+        identifiers={(DOMAIN, entry.entry_id)},
+        name=entry.data[CONF_NAME],
+        manufacturer="Paradigma",
+        model="SystaSmartC II / SystaComfort II",
+        sw_version="Modbus V1.1",
+        configuration_url=f"http://{entry.data[CONF_HOST]}"
+    )
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
     return True

@@ -2,7 +2,6 @@
 import logging
 import threading
 from pymodbus.client import ModbusTcpClient
-from pymodbus.exceptions import ModbusException
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -26,82 +25,72 @@ class ParadigmaHub:
         """Read Input Registers (0x04)."""
         with self._lock:
             try:
-                # WICHTIG: Dein System verlangt 'device_id' statt 'slave' oder 'unit'
-                result = self._client.read_input_registers(address, count=count, device_id=self._slave_id)
-                if result.isError():
-                    _LOGGER.error("Fehler beim Lesen (Input %s): %s", address, result)
-                    return None
-                return result.registers
-            except TypeError:
-                # Fallback für ältere Pymodbus Versionen (falls sich was ändert)
+                # Priorität: device_id (Neu) -> slave (Mittel) -> unit (Alt)
                 try:
-                    result = self._client.read_input_registers(address, count, slave=self._slave_id)
-                    if not result.isError(): return result.registers
+                    res = self._client.read_input_registers(address=address, count=count, device_id=self._slave_id)
                 except TypeError:
-                    result = self._client.read_input_registers(address, count, unit=self._slave_id)
-                    if not result.isError(): return result.registers
-                return None
-            except ModbusException as exc:
-                _LOGGER.error("Modbus Exception (Input): %s", exc)
+                    try:
+                        res = self._client.read_input_registers(address, count, slave=self._slave_id)
+                    except TypeError:
+                        res = self._client.read_input_registers(address, count, unit=self._slave_id)
+                
+                if res.isError():
+                    _LOGGER.debug(f"Modbus Fehler Lesen Input {address}: {res}")
+                    return None
+                return res.registers
+            except Exception as e:
+                _LOGGER.error(f"Exception Lesen Input {address}: {e}")
                 return None
 
     def read_holding_registers(self, address, count):
         """Read Holding Registers (0x03)."""
         with self._lock:
             try:
-                result = self._client.read_holding_registers(address, count=count, device_id=self._slave_id)
-                if result.isError():
-                    _LOGGER.error("Fehler beim Lesen (Holding %s): %s", address, result)
-                    return None
-                return result.registers
-            except TypeError:
-                # Fallback
                 try:
-                    result = self._client.read_holding_registers(address, count, slave=self._slave_id)
-                    if not result.isError(): return result.registers
+                    res = self._client.read_holding_registers(address=address, count=count, device_id=self._slave_id)
                 except TypeError:
-                    result = self._client.read_holding_registers(address, count, unit=self._slave_id)
-                    if not result.isError(): return result.registers
-                return None
-            except ModbusException as exc:
-                _LOGGER.error("Modbus Exception (Holding): %s", exc)
+                    try:
+                        res = self._client.read_holding_registers(address, count, slave=self._slave_id)
+                    except TypeError:
+                        res = self._client.read_holding_registers(address, count, unit=self._slave_id)
+
+                if res.isError():
+                    _LOGGER.debug(f"Modbus Fehler Lesen Holding {address}: {res}")
+                    return None
+                return res.registers
+            except Exception as e:
+                _LOGGER.error(f"Exception Lesen Holding {address}: {e}")
                 return None
 
     def write_register(self, address, value):
         """Write Single Register."""
         with self._lock:
             try:
-                builder = self._client.write_register(address, value, device_id=self._slave_id)
-                return not builder.isError()
-            except TypeError:
-                # Fallback
                 try:
-                    builder = self._client.write_register(address, value, slave=self._slave_id)
-                    return not builder.isError()
+                    res = self._client.write_register(address, value, device_id=self._slave_id)
                 except TypeError:
-                    builder = self._client.write_register(address, value, unit=self._slave_id)
-                    return not builder.isError()
-            except Exception as exc:
-                _LOGGER.error("Fehler beim Schreiben: %s", exc)
+                    try:
+                        res = self._client.write_register(address, value, slave=self._slave_id)
+                    except TypeError:
+                        res = self._client.write_register(address, value, unit=self._slave_id)
+                return not res.isError()
+            except Exception:
                 return False
 
     def read_coils(self, address, count):
         """Read Coils (0x01)."""
         with self._lock:
             try:
-                result = self._client.read_coils(address, count=count, device_id=self._slave_id)
-                if result.isError():
-                    return None
-                return result.bits
-            except TypeError:
-                # Fallback
                 try:
-                    result = self._client.read_coils(address, count, slave=self._slave_id)
-                    if not result.isError(): return result.bits
+                    res = self._client.read_coils(address=address, count=count, device_id=self._slave_id)
                 except TypeError:
-                    result = self._client.read_coils(address, count, unit=self._slave_id)
-                    if not result.isError(): return result.bits
-                return None
+                    try:
+                        res = self._client.read_coils(address, count, slave=self._slave_id)
+                    except TypeError:
+                        res = self._client.read_coils(address, count, unit=self._slave_id)
+                
+                if res.isError(): return None
+                return res.bits
             except Exception:
                 return None
 
@@ -109,15 +98,13 @@ class ParadigmaHub:
         """Write Single Coil (0x05)."""
         with self._lock:
             try:
-                self._client.write_coil(address, value, device_id=self._slave_id)
-                return True
-            except TypeError:
-                # Fallback
                 try:
-                    self._client.write_coil(address, value, slave=self._slave_id)
-                    return True
+                    self._client.write_coil(address, value, device_id=self._slave_id)
                 except TypeError:
-                    self._client.write_coil(address, value, unit=self._slave_id)
-                    return True
+                    try:
+                        self._client.write_coil(address, value, slave=self._slave_id)
+                    except TypeError:
+                        self._client.write_coil(address, value, unit=self._slave_id)
+                return True
             except Exception:
                 return False
