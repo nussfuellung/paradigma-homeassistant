@@ -65,7 +65,6 @@ class ParadigmaWaterHeater(WaterHeaterEntity):
         if temp:
             try:
                 val_int = int(temp * 10)
-                # Das hier nutzt jetzt die neue write_register Funktion (FC 0x10)
                 if self._hub.write_register(8, val_int):
                     self._target_temp = temp
             except Exception: pass
