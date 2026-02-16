@@ -39,11 +39,7 @@ class ParadigmaSwitch(SwitchEntity):
         return self._is_on
 
     def update(self):
-        # Coils lesen (Bit-Adresse)
-        # Die Methode read_coils erwartet die Bit-Adresse.
-        # Laut PDF Seite 12 sind das Bits im Register. 
-        # Modbus Function 01 (Read Coils) liest normalerweise diskrete Ausgänge.
-        # Paradigma nutzt Function 01.
+        
         res = self._hub.read_coils(self._address, 1)
         if res:
             self._is_on = res[0]
