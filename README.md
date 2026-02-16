@@ -7,6 +7,9 @@
 
 This is a custom integration for **Paradigma** heating systems (SystaSmartC II / SystaComfort II) for Home Assistant. It communicates locally via **Modbus TCP**.
 
+There is a big update coming this year adding support for heat pumps, please stay calm you will get an update notification as soon as the integration is able to support it.
+
+
 [🇩🇪 Zur deutschen Beschreibung springen](#german)
 
 ---
@@ -18,26 +21,31 @@ This integration is designed for Paradigma controllers that support the "Modbus-
 
 * **SystaSmartC II**
 * **SystaComfort II**
-* Compatible extensions (Sensors only): SystaComfort Wood, SystaComfort Pool.
+* **Extensions:** SystaComfort Wood, SystaComfort Pool, SystaExpresso (Fresh water station).
 
 ### Features
 
-The integration connects to the heating controller (Unit ID 1) and provides the following entities:
+The integration connects to the heating controller (Unit ID 1) and provides a fully modular setup. You can enable/disable specific components during configuration.
 
 #### 🌡️ Sensors (Read-Only)
-* **Temperatures:** Outdoor, Flow/Return (Heating Circuits 1 & 2), Domestic Hot Water (DHW), Buffer (Top/Bottom), Collector.
-* **Solar:** Current Solar Power, Daily Yield, Total Yield.
-* **Status:** Text-based status messages for Heating Circuits, DHW, and Boiler (e.g., "Heating Mode", "Frost Protection", "Standby").
+* **Standard:** Outdoor Temp, Flow/Return (HK1), DHW Temp, Buffer (Top/Bottom), Circulation Return.
+* **Status:** Text-based status messages (translated) for Heating Circuits, DHW, Circulation, and Boiler.
+* **Optional Components (Selectable):**
+    * **Solar:** Collector Temp, Current Power, Daily Yield, Total Yield.
+    * **Heating Circuit 2 (HK2):** Flow/Return, Room Temp, Status.
+    * **Boiler (Gas/Oil):** Flow/Return, Operation Hours, Starts, Status.
+    * **Wood/Pellet:** Flow/Return, Buffer Top, Pellet Consumption (kg/t), Operation Hours, Detailed Status messages.
+    * **Pool:** Temp, Flow/Return, Status.
+    * **Room Sensors:** Room temperatures for HK1 and HK2.
 
 #### 🎛️ Controls (Read/Write)
-* **Heating Circuits:** Set target **Flow Temperature** (Vorlauf) via Number entities.
-    * *Note: This controls the flow temperature setpoint sent to the controller, not the room temperature directly.*
-* **Domestic Hot Water:** Set target water temperature via a **Water Heater** entity.
+* **Heating Circuits:** Set target **Flow Temperature** (Vorlauf) via Number entities for HK1 and HK2.
+* **Domestic Hot Water:** Set target water temperature and toggle On/Off via a **Water Heater** entity.
 * **Buffer/Boiler:** Set target temperatures for Buffer Top and Boiler.
 
 #### 🔘 Switches
-* **DHW Enable:** Enable/Disable hot water preparation.
-* **Circulation Enable:** Enable/Disable circulation pump.
+* **DHW Enable:** Enable/Disable hot water preparation globally.
+* **Circulation Enable:** Enable/Disable circulation pump globally.
 
 ### Installation via HACS
 
@@ -56,7 +64,10 @@ The integration connects to the heating controller (Unit ID 1) and provides the 
     * **Host:** IP address of your SystaSmartC/Comfort.
     * **Port:** Default is `502`.
     * **Unit ID:** Default is `1`.
-    * **Scan Interval:** How often to update data (default 30s).
+4.  **Select your installed components:**
+    * Check the boxes for **Solar**, **Heating Circuit 2**, **Pool**, **Room Sensors**, **Boiler**, or **Wood/Pellet** to enable the respective sensors.
+
+> **Note:** You can change these settings later by clicking **"Configure"** on the integration entry.
 
 ---
 
@@ -68,21 +79,26 @@ Diese Integration unterstützt Paradigma Regelungen, die das Protokoll "Modbus-S
 
 * **SystaSmartC II**
 * **SystaComfort II**
-* Kompatible Erweiterungen (nur Sensoren): SystaComfort Wood, SystaComfort Pool.
+* **Erweiterungen:** SystaComfort Wood, SystaComfort Pool, SystaExpresso.
 
 ### Funktionen
 
-Die Integration verbindet sich mit dem Heizungsregler (Unit ID 1) und stellt folgende Entitäten bereit:
+Die Integration verbindet sich mit dem Heizungsregler (Unit ID 1) und bietet einen modularen Aufbau. Komponenten können bei der Einrichtung an- oder abgewählt werden.
 
 #### 🌡️ Sensoren (Nur Lesen)
-* **Temperaturen:** Außentemperatur, Vorlauf/Rücklauf (HK1 & HK2), Warmwasser, Puffer (Oben/Unten), Kollektor.
-* **Solar:** Aktuelle Solarleistung, Tagesertrag, Gesamtertrag.
-* **Status:** Klartext-Statusmeldungen für Heizkreise, Warmwasser und Kessel (z. B. "Heizbetrieb", "Frostschutz", "Ladung läuft").
+* **Standard:** Außentemperatur, Vorlauf/Rücklauf (HK1), Warmwasser, Puffer (Oben/Unten), Zirkulation Rücklauf.
+* **Status:** Klartext-Statusmeldungen (übersetzt) für Heizkreise, Warmwasser, Zirkulation und Kessel (z. B. "Heizbetrieb", "Vorhaltezeit", "Ladung läuft").
+* **Optionale Komponenten (Wählbar):**
+    * **Solar:** Kollektor-Temp, Leistung, Tagesertrag, Gesamtertrag.
+    * **Heizkreis 2 (HK2):** Vorlauf/Rücklauf, Raumtemperatur, Status.
+    * **Kessel (Gas/Öl):** Vorlauf/Rücklauf, Betriebsstunden, Starts, Status.
+    * **Holz/Pellets:** Vorlauf/Rücklauf, Puffer Oben, Pelletverbrauch, Betriebsstunden, Detaillierter Status (z.B. "Ausbrand", "Zünden").
+    * **Pool:** Temp, Vorlauf/Rücklauf, Status.
+    * **Raumfühler:** Raumtemperaturen für HK1 und HK2 (falls Fernbedienung vorhanden).
 
 #### 🎛️ Steuerung (Lesen/Schreiben)
-* **Heizkreise:** Setzen der **Soll-Vorlauftemperatur** über Nummer-Entitäten.
-    * *Hinweis: Dies steuert die Vorlauftemperatur, die an den Regler gesendet wird, nicht direkt die Raumtemperatur.*
-* **Warmwasser:** Setzen der Warmwasser-Solltemperatur über eine **Water Heater** (Wassererwärmer) Entität.
+* **Heizkreise:** Setzen der **Soll-Vorlauftemperatur** über Nummer-Entitäten für HK1 und HK2.
+* **Warmwasser:** Setzen der Warmwasser-Solltemperatur und An/Aus über eine **Water Heater** (Wassererwärmer) Entität.
 * **Puffer/Kessel:** Setzen der Solltemperaturen für Puffer Oben und den Kessel.
 
 #### 🔘 Schalter
@@ -106,7 +122,10 @@ Die Integration verbindet sich mit dem Heizungsregler (Unit ID 1) und stellt fol
     * **IP-Adresse:** Die IP Ihrer SystaSmartC/Comfort im Netzwerk.
     * **Port:** Standard ist `502`.
     * **Unit ID:** Standard ist `1`.
-    * **Aktualisierungsintervall:** Wie oft Daten abgerufen werden (Standard 30s).
+4.  **Wählen Sie Ihre installierten Komponenten:**
+    * Setzen Sie Haken bei **Solar**, **Heizkreis 2**, **Pool**, **Raumfühler**, **Kessel** oder **Holz/Pellet**, um die entsprechenden Sensoren zu aktivieren.
+
+> **Hinweis:** Sie können diese Einstellungen jederzeit nachträglich ändern, indem Sie bei der Integration auf **"Konfigurieren"** klicken.
 
 ---
 
