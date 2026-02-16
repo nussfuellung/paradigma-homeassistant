@@ -56,13 +56,13 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 class OptionsFlowHandler(config_entries.OptionsFlow):
     """Handle options."""
     def __init__(self, config_entry):
-        # Wir speichern hier keine Referenz auf config_entry, da sie in self.config_entry verfügbar ist
+        
         pass
 
     async def async_step_init(self, user_input=None):
         """Manage the options."""
         if user_input is not None:
-            # WICHTIG: Wir kopieren die ALTEN Daten (inkl. Name) und überschreiben nur die Änderungen!
+            
             new_data = self.config_entry.data.copy()
             new_data.update(user_input)
 
@@ -71,7 +71,7 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
             )
             return self.async_create_entry(title="", data=new_data)
 
-        # Bestehende Daten laden, um sie im Formular anzuzeigen
+        
         data = self.config_entry.data
         
         return self.async_show_form(
