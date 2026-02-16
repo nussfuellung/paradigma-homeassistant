@@ -9,9 +9,8 @@ from .const import DOMAIN, CONF_SOLAR, CONF_HK2, CONF_POOL, CONF_ROOM, CONF_BOIL
 
 _LOGGER = logging.getLogger(__name__)
 
-# --- DEUTSCHE ÜBERSETZUNGEN FÜR STATUS-CODES (Vervollständigt) ---
 
-# Heizkreis Status [cite: 228]
+
 STATUS_HK = { 
     0: "Aus", 1: "Heizbetrieb", 2: "Anschieben", 3: "Vorhaltezeit", 
     4: "Gesperrt", 5: "Inbetriebnahme", 6: "Frostschutz", 7: "Estrich", 
@@ -19,7 +18,7 @@ STATUS_HK = {
     11: "Nicht installiert", 12: "Kühlkreis aktiv" 
 }
 
-# Warmwasser Status 
+
 STATUS_WW = { 
     0: "Kein Bedarf", 1: "Ladung läuft", 2: "Frostschutz", 3: "Warten", 
     4: "Nachlauf Ladepumpe", 5: "Puffer/Kessel zu warm", 
@@ -28,7 +27,7 @@ STATUS_WW = {
     12: "Zirkulation Sperrzeit", 13: "Sperre durch SmartHome" 
 }
 
-# Pool Status [cite: 229]
+
 STATUS_POOL = { 
     0: "Keine Erweiterung", 1: "Aus", 2: "Gesperrt", 3: "Warm genug", 
     4: "Frostschutz", 5: "Aufheizen Normal", 6: "Aufheizen Komfort", 
@@ -36,33 +35,33 @@ STATUS_POOL = {
     9: "Gesperrt (WW Vorrang)", 10: "Kühlen" 
 }
 
-# Zirkulation Status [cite: 221, 227]
+
 STATUS_CIRC = { 
     0: "Nicht verwendet", 1: "Nachlauf", 2: "Gesperrt", 3: "Aus", 
     4: "Gesperrt (Fühler)", 5: "An", 6: "Frostschutz", 7: "Sperre SmartHome" 
 }
 
-# Kessel Status [cite: 232-246]
+
 STATUS_BOILER = { 
     0: "Aus", 1: "An", 2: "An für Heizkreis", 3: "Lädt Puffer", 
     4: "Gesperrt", 5: "Kühlung WP", 6: "WW Bereitung" 
 }
 
-# Solar Status [cite: 254]
+
 STATUS_SOLAR = { 
     0: "Wartet", 1: "Frostschutz", 2: "Anschieben", 3: "Einschaltverzögerung", 
     4: "Ladung läuft", 5: "Speicher voll", 6: "Kollektor überhitzt", 
     7: "Manuell", 8: "Messung", 9: "Notbetrieb" 
 }
 
-# Holz/Pellet Status [cite: 251, 252]
+
 STATUS_WOOD = { 0: "Kein Kessel", 1: "Aus", 2: "Anheizen", 3: "Leistungsbrand", 4: "Ausbrand", 5: "Nachkühlen", 6: "Schaltet ab", 7: "Pumpe schiebt an" }
 STATUS_PELLET = { 0: "Aus", 1: "Standby", 2: "Anheizen", 3: "Leistungsbrand", 4: "Test Abgasklappe", 5: "Nachlauf", 6: "Reinigung", 7: "Störung", 8: "Unbekannt" }
 
 SENSOR_DEFINITIONS = [
     # Key, Unit, Class, Factor, RegisterType, RegisterOffset, RequiresConfig
     
-    # --- Standard Temperaturen ---
+    
     ("outdoor_temp", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, 0.1, "input", 0, None),
     ("flow_hk1", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, 0.1, "input", 1, None),
     ("return_hk1", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, 0.1, "input", 2, None),
