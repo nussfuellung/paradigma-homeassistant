@@ -9,7 +9,7 @@ This is a custom integration for **Paradigma** heating systems (SystaSmartC II /
 
 There is a big update coming in the first half of this year adding support for **heat pumps**, please stay calm you will get an update notification as soon as the integration is able to support it.
 
-**It is necessary to remove your modbus configuration for Paradigma before you try to install this integration, as the system block requests from more than one device at a time!**
+**It is necessary to remove your modbus configuration for Paradigma before you try to install this integration, as the system blocks requests from more than one device at a time!**
 
 [🇩🇪 Zur deutschen Beschreibung springen](#german)
 
