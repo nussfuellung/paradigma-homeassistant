@@ -55,8 +55,6 @@ class ParadigmaHub:
         """Write Single Register - Forced as Multiple (FC 0x10)."""
         with self._lock:
             try:
-                # WICHTIG: Paradigma kann kein 'write_register' (0x06).
-                # Wir müssen 'write_registers' (0x10) nutzen und den Wert als Liste [value] übergeben.
                 try:
                     res = self._client.write_registers(address=address, values=[value], device_id=self._slave_id)
                 except TypeError:
