@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: GitHub Discussions / Diskussionen
+    url: https://github.com/nussfuellung/paradigma-homeassistant/discussions
+    about: Please ask general questions here. / Bitte stelle allgemeine Fragen hier.
