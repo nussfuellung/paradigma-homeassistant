@@ -1,0 +1,48 @@
+name: Bug Report / Fehlerbericht
+description: Create a report to help us improve. / Erstelle einen Fehlerbericht.
+title: "[Bug]: "
+labels: ["bug"]
+assignees:
+  - nussfuellung
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Thanks for reporting a bug! / Danke, dass du einen Fehler meldest!**
+        
+        Please fill out the fields below. / Bitte fülle die folgenden Felder aus.
+  - type: input
+    id: ha_version
+    attributes:
+      label: Home Assistant Core Version
+      description: Which version are you running? / Welche Version nutzt du?
+      placeholder: 2024.x.x
+    validations:
+      required: true
+  - type: input
+    id: integration_version
+    attributes:
+      label: Integration Version
+      description: Which version of the Paradigma integration are you using? / Welche Version der Integration nutzt du?
+      placeholder: v1.0.1
+    validations:
+      required: true
+  - type: textarea
+    id: what_happened
+    attributes:
+      label: Description / Fehlerbeschreibung
+      description: What happened? / Was ist passiert und was hast du erwartet?
+      placeholder: English or German is fine. / Deutsch oder Englisch ist okay.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / Fehlermeldungen
+      description: Please copy errors from your logs here. / Bitte kopiere Fehler aus dem Protokoll hier rein.
+      render: shell
+      placeholder: |
+        Logger: custom_components.paradigma
+        Error: Connection failed...
+    validations:
+      required: false
