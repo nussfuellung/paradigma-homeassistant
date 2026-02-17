@@ -1,0 +1,20 @@
+name: Feature Request / Funktionswunsch
+description: Suggest an idea for this integration. / Schlage eine neue Funktion vor.
+title: "[Feature]: "
+labels: ["enhancement"]
+assignees:
+  - nussfuellung
+body:
+  - type: textarea
+    id: feature_desc
+    attributes:
+      label: Feature Description / Beschreibung
+      description: What should be added? / Was soll hinzugefügt werden?
+    validations:
+      required: true
+  - type: checkbox
+    id: pr_exists
+    attributes:
+      label: Pull Request
+      options:
+        - label: I have already opened a Pull Request for this feature / Ich habe bereits einen PR erstellt
