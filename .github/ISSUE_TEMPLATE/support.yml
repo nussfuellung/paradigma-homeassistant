@@ -1,0 +1,41 @@
+name: Technical Support / Hilfe & Support
+description: Questions about setup or configuration. / Fragen zur Einrichtung oder Hardware.
+title: "[Support]: "
+labels: ["question", "support"]
+assignees:
+  - nussfuellung
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **We are here to help! / Wir helfen gerne!**
+        
+        Please describe your setup. / Bitte beschreibe dein System.
+  - type: input
+    id: ha_version
+    attributes:
+      label: Home Assistant Core Version
+      placeholder: 2024.x.x
+    validations:
+      required: true
+  - type: input
+    id: integration_version
+    attributes:
+      label: Integration Version
+      placeholder: v1.0.1
+    validations:
+      required: true
+  - type: textarea
+    id: problem_desc
+    attributes:
+      label: Problem Description / Beschreibung
+      description: What do you need help with? / Wobei genau brauchst du Hilfe?
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / Protokolle (Optional)
+      render: shell
+    validations:
+      required: false
