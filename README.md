@@ -17,7 +17,7 @@ There is a big update coming in the first half of this year adding support for *
 
 
 > [!IMPORTANT]
-> **If you already tried to add your heating system with YAML, make sure to remove old files. Otherwise the system may block Modbus communication.**
+> **If you already tried to add your heating system with YAML, make sure to remove all old files. Otherwise the system may block Modbus communication.**
 
 
 
