@@ -12,7 +12,7 @@ body:
       description: What should be added? / Was soll hinzugefügt werden?
     validations:
       required: true
-  - type: checkbox
+  - type: checkboxes
     id: pr_exists
     attributes:
       label: Pull Request
