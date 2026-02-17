@@ -5,11 +5,16 @@
 
 ![Paradigma Integration Logo](logo.png)
 
-## **Now available in HACS default Repository, just search in HACS for Paradigma. No need to add a custom repository.**
+
+> [!TIP]
+>## **Now available in HACS default Repository, just search in HACS for Paradigma. No need to add a custom repository anymore.**
+
 
 This is a custom integration for **Paradigma** heating systems (SystaSmartC II / SystaComfort II) for Home Assistant. It communicates locally via **Modbus TCP**.
 
+
 There is a big update coming in the first half of this year adding support for **heat pumps**, please stay calm you will get an update notification as soon as the integration is able to support it.
+
 
 > [!IMPORTANT]
 > **If you already tried to add your heating system with YAML, make sure to remove old files. Otherwise the system may block Modbus communication.**
