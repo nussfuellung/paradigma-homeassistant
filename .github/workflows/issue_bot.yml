@@ -1,0 +1,32 @@
+name: Issue Bot (Assign & Greet)
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  auto_handle:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Auto-Assign to Maintainer
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.addAssignees({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              assignees: ['nussfuellung']
+            })
+
+      - name: Post Greeting Comment
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '👋 **Hello! / Hallo!**\n\nThanks for opening this issue. I have automatically assigned it to @nussfuellung, who will look into it as soon as possible.\n\nDanke für das Erstellen des Tickets. Ich habe es automatisch @nussfuellung zugewiesen, er wird es sich so bald wie möglich ansehen.'
+            })
