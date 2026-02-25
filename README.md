@@ -1,6 +1,6 @@
 # Paradigma Heating Integration for Home Assistant
 
-[![hacs_badge](https://img.shields.io/badge/HACS-Default-41BDF5.svg)](https://github.com/hacs/integration)
+[![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg)](https://github.com/hacs/integration)
 [![version](https://img.shields.io/github/v/release/nussfuellung/paradigma-homeassistant?include_prereleases)](https://github.com/nussfuellung/paradigma-homeassistant/releases)
 [![Downloads](https://img.shields.io/github/downloads/nussfuellung/paradigma-homeassistant/total.svg?style=flat)](https://github.com/nussfuellung/paradigma-homeassistant/releases)
 [![Stars](https://img.shields.io/github/stars/nussfuellung/paradigma-homeassistant.svg?style=flat)](https://github.com/nussfuellung/paradigma-homeassistant/stargazers)
