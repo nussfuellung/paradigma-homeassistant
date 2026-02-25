@@ -7,24 +7,17 @@
 [![Issues](https://img.shields.io/github/issues/nussfuellung/paradigma-homeassistant.svg?style=flat)](https://github.com/nussfuellung/paradigma-homeassistant/issues)
 [![Last Commit](https://img.shields.io/github/last-commit/nussfuellung/paradigma-homeassistant.svg?style=flat)](https://github.com/nussfuellung/paradigma-homeassistant/commits/main)
 
-
 ![Paradigma Integration Logo](logo.png)
 
-
 > [!TIP]
-> **Now available in HACS default Repository, just search in HACS for Paradigma. No need to add a custom repository anymore.**
-
+> **Now available in the HACS Default Store! Just search for "Paradigma" in HACS. No need to add a custom repository anymore.**
 
 This is a custom integration for **Paradigma** heating systems (SystaSmartC II / SystaComfort II) for Home Assistant. It communicates locally via **Modbus TCP**.
 
-
-There is a big update coming in the first half of this year adding support for **heat pumps**, please stay calm you will get an update notification as soon as the integration is able to support it.
-
+A major update adding support for **heat pumps** is planned for the first half of this year. You will receive an update notification via HACS as soon as this feature becomes available.
 
 > [!IMPORTANT]
-> **If you already tried to add your heating system with YAML, make sure to remove all old files. Otherwise the system may block Modbus communication.**
-
-
+> **If you previously added your heating system manually via YAML, make sure to remove all old Modbus files/entries from your `configuration.yaml`. Otherwise, the system may block the Modbus communication.**
 
 [🇩🇪 Zur deutschen Beschreibung springen](#german)
 
@@ -41,16 +34,16 @@ This integration is designed for Paradigma controllers that support the "Modbus-
 
 ### Features
 
-The integration connects to the heating controller (Unit ID 1) and provides a fully modular setup. You can enable/disable specific components during configuration.
+The integration connects to the heating controller (Unit ID 1) and provides a fully modular setup. You can enable or disable specific components during configuration.
 
 #### 🌡️ Sensors (Read-Only)
 * **Standard:** Outdoor Temp, Flow/Return (HK1), DHW Temp, Buffer (Top/Bottom), Circulation Return.
-* **Status:** Text-based status messages (translated) for Heating Circuits, DHW, Circulation, and Boiler.
+* **Status:** Clear-text status messages (fully translated) for Heating Circuits, DHW, Circulation, and Boiler.
 * **Optional Components (Selectable):**
     * **Solar:** Collector Temp, Current Power, Daily Yield, Total Yield.
     * **Heating Circuit 2 (HK2):** Flow/Return, Room Temp, Status.
     * **Boiler (Gas/Oil):** Flow/Return, Operation Hours, Starts, Status.
-    * **Wood/Pellet:** Flow/Return, Buffer Top, Pellet Consumption (kg/t), Operation Hours, Detailed Status messages.
+    * **Wood/Pellet:** Flow/Return, Buffer Top, Pellet Consumption, Operation Hours, Detailed Status messages (e.g., "Burnout", "Ignition").
     * **Pool:** Temp, Flow/Return, Status.
     * **Room Sensors:** Room temperatures for HK1 and HK2.
 
@@ -66,11 +59,10 @@ The integration connects to the heating controller (Unit ID 1) and provides a fu
 ### Installation via HACS
 
 1.  Open **HACS** in Home Assistant.
-2.  Go to **Integrations** > Top right menu `...` > **Custom repositories**.
-3.  Enter the URL of your repository (e.g., `https://github.com/nussfuellung/paradigma-homeassistant`).
-4.  Select Category: **Integration**.
-5.  Click **Add** and then install "Paradigma".
-6.  Restart Home Assistant.
+2.  Go to **Integrations** and click on **Explore & Download Repositories** (or use the search bar).
+3.  Search for **Paradigma**.
+4.  Click **Download** / **Install**.
+5.  Restart Home Assistant.
 
 ### Configuration
 
@@ -83,7 +75,7 @@ The integration connects to the heating controller (Unit ID 1) and provides a fu
 4.  **Select your installed components:**
     * Check the boxes for **Solar**, **Heating Circuit 2**, **Pool**, **Room Sensors**, **Boiler**, or **Wood/Pellet** to enable the respective sensors.
 
-> **Note:** You can change these settings later by clicking **"Configure"** on the integration entry.
+> **Note:** You can change these settings at any time by clicking **"Configure"** on the integration entry.
 
 ---
 
@@ -103,19 +95,19 @@ Die Integration verbindet sich mit dem Heizungsregler (Unit ID 1) und bietet ein
 
 #### 🌡️ Sensoren (Nur Lesen)
 * **Standard:** Außentemperatur, Vorlauf/Rücklauf (HK1), Warmwasser, Puffer (Oben/Unten), Zirkulation Rücklauf.
-* **Status:** Klartext-Statusmeldungen (übersetzt) für Heizkreise, Warmwasser, Zirkulation und Kessel (z. B. "Heizbetrieb", "Vorhaltezeit", "Ladung läuft").
+* **Status:** Klartext-Statusmeldungen (mehrsprachig) für Heizkreise, Warmwasser, Zirkulation und Kessel (z. B. "Heizbetrieb", "Vorhaltezeit", "Ladung läuft").
 * **Optionale Komponenten (Wählbar):**
     * **Solar:** Kollektor-Temp, Leistung, Tagesertrag, Gesamtertrag.
     * **Heizkreis 2 (HK2):** Vorlauf/Rücklauf, Raumtemperatur, Status.
     * **Kessel (Gas/Öl):** Vorlauf/Rücklauf, Betriebsstunden, Starts, Status.
-    * **Holz/Pellets:** Vorlauf/Rücklauf, Puffer Oben, Pelletverbrauch, Betriebsstunden, Detaillierter Status (z.B. "Ausbrand", "Zünden").
+    * **Holz/Pellets:** Vorlauf/Rücklauf, Puffer Oben, Pelletverbrauch, Betriebsstunden, Detaillierter Status (z.B. "Ausbrand", "Anheizen").
     * **Pool:** Temp, Vorlauf/Rücklauf, Status.
     * **Raumfühler:** Raumtemperaturen für HK1 und HK2 (falls Fernbedienung vorhanden).
 
 #### 🎛️ Steuerung (Lesen/Schreiben)
-* **Heizkreise:** Setzen der **Soll-Vorlauftemperatur** über Nummer-Entitäten für HK1 und HK2.
-* **Warmwasser:** Setzen der Warmwasser-Solltemperatur und An/Aus über eine **Water Heater** (Wassererwärmer) Entität.
-* **Puffer/Kessel:** Setzen der Solltemperaturen für Puffer Oben und den Kessel.
+* **Heizkreise:** Einstellen der **Soll-Vorlauftemperatur** über Zahlen-Entitäten (Number) für HK1 und HK2.
+* **Warmwasser:** Einstellen der Warmwasser-Solltemperatur und An/Aus über eine **Wassererwärmer** (Water Heater) Entität.
+* **Puffer/Kessel:** Einstellen der Solltemperaturen für Puffer Oben und den Kessel.
 
 #### 🔘 Schalter
 * **Warmwasser Freigabe:** Ein-/Ausschalten der Warmwasserbereitung (DHW Enable).
@@ -124,11 +116,10 @@ Die Integration verbindet sich mit dem Heizungsregler (Unit ID 1) und bietet ein
 ### Installation über HACS
 
 1.  Öffnen Sie **HACS** in Home Assistant.
-2.  Gehen Sie zu **Integrationen** > Menü oben rechts `...` > **Benutzerdefinierte Repositories**.
-3.  Geben Sie die URL Ihres Repositories ein (z.B. `https://github.com/nussfuellung/paradigma-homeassistant`).
-4.  Kategorie: **Integration**.
-5.  Klicken Sie auf **Hinzufügen** und installieren Sie "Paradigma".
-6.  Starten Sie Home Assistant neu.
+2.  Gehen Sie zu **Integrationen** und klicken Sie auf **Durchsuchen & Herunterladen** (oder nutzen Sie die Suchfunktion).
+3.  Suchen Sie nach **Paradigma**.
+4.  Klicken Sie auf **Herunterladen**.
+5.  Starten Sie Home Assistant neu.
 
 ### Konfiguration
 
