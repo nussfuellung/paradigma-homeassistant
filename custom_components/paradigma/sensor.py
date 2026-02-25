@@ -10,6 +10,7 @@ from .const import DOMAIN, CONF_SOLAR, CONF_HK2, CONF_POOL, CONF_ROOM, CONF_BOIL
 _LOGGER = logging.getLogger(__name__)
 
 
+
 STATUS_HK = { 
     0: "off", 1: "heating", 2: "push", 3: "hold", 
     4: "blocked", 5: "startup", 6: "frost", 7: "screed", 
@@ -52,6 +53,8 @@ STATUS_WOOD = { 0: "no_boiler", 1: "off", 2: "ignition", 3: "burning", 4: "burno
 STATUS_PELLET = { 0: "off", 1: "standby", 2: "ignition", 3: "burning", 4: "test", 5: "runon", 6: "cleaning", 7: "error", 8: "unknown" }
 
 SENSOR_DEFINITIONS = [
+
+    
     ("outdoor_temp", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, 0.1, "input", 0, None),
     ("flow_hk1", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, 0.1, "input", 1, None),
     ("return_hk1", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, 0.1, "input", 2, None),
@@ -68,19 +71,19 @@ SENSOR_DEFINITIONS = [
 
     ("boiler_flow", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, 0.1, "input", 12, CONF_BOILER),
     ("boiler_return", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, 0.1, "input", 13, CONF_BOILER),
-    ("boiler_hours", UnitOfTime.HOURS, SensorDeviceClass.DURATION, 1.0, "holding", 27, CONF_BOILER),
-    ("boiler_starts", None, None, 1.0, "holding", 29, CONF_BOILER),
+    ("boiler_hours", UnitOfTime.HOURS, SensorDeviceClass.DURATION, 1.0, "holding_32", 27, CONF_BOILER),
+    ("boiler_starts", None, None, 1.0, "holding_32", 29, CONF_BOILER),
 
     ("wood_flow", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, 0.1, "input", 14, CONF_WOOD),
     ("wood_return", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, 0.1, "input", 15, CONF_WOOD),
     ("wood_buffer_top", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, 0.1, "input", 16, CONF_WOOD),
-    ("pellet_hours", UnitOfTime.HOURS, SensorDeviceClass.DURATION, 1.0, "holding", 31, CONF_WOOD),
+    ("pellet_hours", UnitOfTime.HOURS, SensorDeviceClass.DURATION, 1.0, "holding_32", 31, CONF_WOOD),
     
-    
+
     ("collector_temp", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, 0.1, "input", 11, CONF_SOLAR),
     ("solar_power", UnitOfPower.KILO_WATT, SensorDeviceClass.POWER, 0.1, "holding", 19, CONF_SOLAR), 
     ("solar_day", UnitOfEnergy.KILO_WATT_HOUR, SensorDeviceClass.ENERGY, 0.1, "holding", 20, CONF_SOLAR),
-    ("solar_total", UnitOfEnergy.MEGA_WATT_HOUR, SensorDeviceClass.ENERGY, 1.0, "holding", 21, CONF_SOLAR), 
+    ("solar_total", UnitOfEnergy.KILO_WATT_HOUR, SensorDeviceClass.ENERGY, 0.1, "holding_32", 21, CONF_SOLAR),
 
     ("pool_temp", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, 0.1, "input", 19, CONF_POOL),
     ("pool_flow", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, 0.1, "input", 20, CONF_POOL),
@@ -119,6 +122,7 @@ class ParadigmaDataCoordinator(DataUpdateCoordinator):
     async def _async_update_data(self):
         data = {}
         
+   
         offsets_input = [0, 1, 2, 3, 4, 5, 6]
         if self.config.get(CONF_HK2): offsets_input.extend([7, 8])
         if self.config.get(CONF_ROOM): offsets_input.extend([9, 10])
@@ -131,16 +135,32 @@ class ParadigmaDataCoordinator(DataUpdateCoordinator):
             val = await self.hass.async_add_executor_job(self.hub.read_input_registers, off, 1)
             if val: data[f"input_{off}"] = val[0]
 
-        offsets_holding = [34, 35, 36]
-        if self.config.get(CONF_HK2): offsets_holding.append(37)
-        if self.config.get(CONF_SOLAR): offsets_holding.extend([19, 20, 21, 39])
-        if self.config.get(CONF_BOILER): offsets_holding.extend([27, 29, 41])
-        if self.config.get(CONF_WOOD): offsets_holding.extend([31, 42, 43])
-        if self.config.get(CONF_POOL): offsets_holding.append(40)
 
-        for off in offsets_holding:
+        offsets_holding_16 = [34, 35, 36]
+        if self.config.get(CONF_HK2): offsets_holding_16.append(37)
+        if self.config.get(CONF_SOLAR): offsets_holding_16.extend([19, 20, 39])
+        if self.config.get(CONF_BOILER): offsets_holding_16.append(41)
+        if self.config.get(CONF_WOOD): offsets_holding_16.extend([42, 43])
+        if self.config.get(CONF_POOL): offsets_holding_16.append(40)
+
+        for off in offsets_holding_16:
             val = await self.hass.async_add_executor_job(self.hub.read_holding_registers, off, 1)
             if val: data[f"holding_{off}"] = val[0]
+            
+
+        offsets_holding_32 = []
+        if self.config.get(CONF_SOLAR): offsets_holding_32.append(21)
+        if self.config.get(CONF_BOILER): offsets_holding_32.extend([27, 29])
+        if self.config.get(CONF_WOOD): offsets_holding_32.append(31)
+
+        for off in offsets_holding_32:
+            try:
+                val_32 = await self.hass.async_add_executor_job(self.hub.read_holding_registers, off, 2)
+                if val_32 and len(val_32) == 2:
+                    combined = (val_32[0] << 16) | val_32[1]
+                    data[f"holding_32_{off}"] = combined
+            except Exception as e:
+                _LOGGER.error(f"Fehler beim Lesen des 32-Bit Registers {off}: {e}")
             
         return data
 
@@ -172,12 +192,18 @@ class ParadigmaSensor(CoordinatorEntity, SensorEntity):
 
     @property
     def native_value(self):
-        key = f"input_{self._reg_idx}" if "input" in self._type else f"holding_{self._reg_idx}"
+        if "input" in self._type:
+            key = f"input_{self._reg_idx}"
+        elif "holding_32" in self._type:
+            key = f"holding_32_{self._reg_idx}"
+        else:
+            key = f"holding_{self._reg_idx}"
+            
         raw = self.coordinator.data.get(key)
         
         if raw is None or raw in [0x8000, 0xFFFF]: return None
 
-        # Hier werden die Slugs geladen
+
         if "status_hk" in self._type: return STATUS_HK.get(raw, str(raw))
         if "status_ww" in self._type: return STATUS_WW.get(raw, str(raw))
         if "status_circ" in self._type: return STATUS_CIRC.get(raw, str(raw))
@@ -202,6 +228,7 @@ class ParadigmaSensor(CoordinatorEntity, SensorEntity):
     def device_class(self):
         if self._dev_class:
             return self._dev_class
+
         if self._unit is None and "status" in self._type:
             return SensorDeviceClass.ENUM
         return None
