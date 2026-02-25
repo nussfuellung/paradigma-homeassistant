@@ -6,6 +6,8 @@
 [![Stars](https://img.shields.io/github/stars/nussfuellung/paradigma-homeassistant.svg?style=flat)](https://github.com/nussfuellung/paradigma-homeassistant/stargazers)
 [![Issues](https://img.shields.io/github/issues/nussfuellung/paradigma-homeassistant.svg?style=flat)](https://github.com/nussfuellung/paradigma-homeassistant/issues)
 [![License](https://img.shields.io/github/license/nussfuellung/paradigma-homeassistant.svg?style=flat)](https://github.com/nussfuellung/paradigma-homeassistant/blob/main/LICENSE)
+[![Last Commit](https://img.shields.io/github/last-commit/nussfuellung/paradigma-homeassistant.svg?style=flat)](https://github.com/nussfuellung/paradigma-homeassistant/commits/main)
+
 
 ![Paradigma Integration Logo](logo.png)
 
