@@ -41,6 +41,19 @@
     }
   },
   "entity": {
+    "number": {
+      "setpoint_flow_hk1": { "name": "Setpoint Flow HK1" },
+      "setpoint_flow_hk2": { "name": "Setpoint Flow HK2" },
+      "setpoint_buffer_top": { "name": "Setpoint Buffer Top" },
+      "setpoint_boiler": { "name": "Setpoint Boiler" }
+    },
+    "switch": {
+      "dhw_enable": { "name": "DHW Enable" },
+      "circ_enable": { "name": "Circulation Enable" }
+    },
+    "water_heater": {
+      "dhw": { "name": "DHW Setpoint" }
+    },
     "sensor": {
       "outdoor_temp": { "name": "Outdoor Temperature" },
       "flow_hk1": { "name": "Flow HK1" },
@@ -68,28 +81,60 @@
       "pool_temp": { "name": "Pool Temperature" },
       "pool_flow": { "name": "Pool Flow" },
       "pool_return": { "name": "Pool Return" },
-      "status_ww": { "name": "Status DHW" },
-      "status_circ": { "name": "Status Circulation" },
-      "status_hk1": { "name": "Status HK1" },
-      "status_hk2": { "name": "Status HK2" },
-      "status_solar": { "name": "Status Solar" },
-      "status_pool": { "name": "Status Pool" },
-      "status_boiler": { "name": "Status Boiler" },
-      "status_wood": { "name": "Status Wood Boiler" },
-      "status_pellet": { "name": "Status Pellet Stove" }
-    },
-    "number": {
-      "setpoint_flow_hk1": { "name": "Setpoint Flow HK1" },
-      "setpoint_flow_hk2": { "name": "Setpoint Flow HK2" },
-      "setpoint_buffer_top": { "name": "Setpoint Buffer Top" },
-      "setpoint_boiler": { "name": "Setpoint Boiler" }
-    },
-    "switch": {
-      "dhw_enable": { "name": "DHW Enable" },
-      "circ_enable": { "name": "Circulation Enable" }
-    },
-    "water_heater": {
-      "dhw": { "name": "DHW Setpoint" }
+      "status_hk1": {
+        "name": "Status HK1",
+        "state": {
+          "off": "Off", "heating": "Heating", "push": "Pushing", "hold": "Hold Time", "blocked": "Blocked", "startup": "Startup", "frost": "Frost Protection", "screed": "Screed Drying", "cooling_excess": "Cooling/Excess", "manual": "Manual", "emergency": "Emergency", "not_installed": "Not Installed", "cooling_active": "Cooling Active"
+        }
+      },
+      "status_hk2": {
+        "name": "Status HK2",
+        "state": {
+          "off": "Off", "heating": "Heating", "push": "Pushing", "hold": "Hold Time", "blocked": "Blocked", "startup": "Startup", "frost": "Frost Protection", "screed": "Screed Drying", "cooling_excess": "Cooling/Excess", "manual": "Manual", "emergency": "Emergency", "not_installed": "Not Installed", "cooling_active": "Cooling Active"
+        }
+      },
+      "status_ww": {
+        "name": "Status DHW",
+        "state": {
+          "no_demand": "No Demand", "loading": "Loading", "frost": "Frost Protection", "waiting": "Waiting", "pump_runon": "Pump Run-on", "buffer_hot": "Buffer/Boiler too hot", "wait_draw": "Wait for Draw-off", "draw_off": "Draw-off", "startup": "Startup", "manual": "Manual", "circ_active": "Circulation Active", "circ_runon": "Circulation Run-on", "circ_lock": "Circulation Locked", "blocked_smarthome": "Blocked by SmartHome"
+        }
+      },
+      "status_circ": {
+        "name": "Status Circulation",
+        "state": {
+          "unused": "Not Used", "runon": "Run-on", "blocked": "Blocked", "off": "Off", "blocked_sensor": "Blocked (Sensor)", "on": "On", "frost": "Frost Protection", "blocked_smarthome": "Blocked by SmartHome"
+        }
+      },
+      "status_solar": {
+        "name": "Status Solar",
+        "state": {
+          "waiting": "Waiting", "frost": "Frost Protection", "push": "Pushing", "delay": "Start Delay", "loading": "Loading", "storage_full": "Storage Full", "collector_overheat": "Collector Overheat", "manual": "Manual", "measuring": "Measuring", "emergency": "Emergency"
+        }
+      },
+      "status_pool": {
+        "name": "Status Pool",
+        "state": {
+          "no_extension": "No Extension", "off": "Off", "blocked": "Blocked", "warm_enough": "Warm Enough", "frost": "Frost Protection", "heating_normal": "Heating (Normal)", "heating_comfort": "Heating (Comfort)", "solar_excess": "Solar Excess", "blocked_buffer_cold": "Blocked (Buffer cold)", "blocked_ww_prio": "Blocked (DHW Priority)", "cooling": "Cooling"
+        }
+      },
+      "status_boiler": {
+        "name": "Status Boiler",
+        "state": {
+          "off": "Off", "on": "On", "on_heating": "On for Heating Circuit", "loading_buffer": "Loading Buffer", "blocked": "Blocked", "cooling_hp": "Cooling Heat Pump", "ww_prep": "DHW Preparation"
+        }
+      },
+      "status_wood": {
+        "name": "Status Wood Boiler",
+        "state": {
+          "no_boiler": "No Boiler", "off": "Off", "ignition": "Ignition", "burning": "Burning", "burnout": "Burnout", "cooling": "Cooling", "shutdown": "Shutdown", "pump_push": "Pump Pushing"
+        }
+      },
+      "status_pellet": {
+        "name": "Status Pellet Stove",
+        "state": {
+          "off": "Off", "standby": "Standby", "ignition": "Ignition", "burning": "Burning", "test": "Test", "runon": "Run-on", "cleaning": "Cleaning", "error": "Error", "unknown": "Unknown"
+        }
+      }
     }
   }
 }
