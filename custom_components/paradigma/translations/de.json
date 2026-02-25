@@ -41,6 +41,19 @@
     }
   },
   "entity": {
+    "number": {
+      "setpoint_flow_hk1": { "name": "Soll-Vorlauf HK1" },
+      "setpoint_flow_hk2": { "name": "Soll-Vorlauf HK2" },
+      "setpoint_buffer_top": { "name": "Soll Puffer Oben" },
+      "setpoint_boiler": { "name": "Soll Kessel" }
+    },
+    "switch": {
+      "dhw_enable": { "name": "Warmwasser Freigabe" },
+      "circ_enable": { "name": "Zirkulation Freigabe" }
+    },
+    "water_heater": {
+      "dhw": { "name": "Warmwasser Sollwert" }
+    },
     "sensor": {
       "outdoor_temp": { "name": "Außentemperatur" },
       "flow_hk1": { "name": "Vorlauf HK1" },
@@ -68,28 +81,60 @@
       "pool_temp": { "name": "Pool Temperatur" },
       "pool_flow": { "name": "Pool Vorlauf" },
       "pool_return": { "name": "Pool Rücklauf" },
-      "status_ww": { "name": "Status Warmwasser" },
-      "status_circ": { "name": "Status Zirkulation" },
-      "status_hk1": { "name": "Status Heizkreis 1" },
-      "status_hk2": { "name": "Status Heizkreis 2" },
-      "status_solar": { "name": "Status Solar" },
-      "status_pool": { "name": "Status Pool" },
-      "status_boiler": { "name": "Status Kessel" },
-      "status_wood": { "name": "Status Holzkessel" },
-      "status_pellet": { "name": "Status Pelletsofen" }
-    },
-    "number": {
-      "setpoint_flow_hk1": { "name": "Soll-Vorlauf HK1" },
-      "setpoint_flow_hk2": { "name": "Soll-Vorlauf HK2" },
-      "setpoint_buffer_top": { "name": "Soll Puffer Oben" },
-      "setpoint_boiler": { "name": "Soll Kessel" }
-    },
-    "switch": {
-      "dhw_enable": { "name": "Warmwasser Freigabe" },
-      "circ_enable": { "name": "Zirkulation Freigabe" }
-    },
-    "water_heater": {
-      "dhw": { "name": "Warmwasser Sollwert" }
+      "status_hk1": {
+        "name": "Status Heizkreis 1",
+        "state": {
+          "off": "Aus", "heating": "Heizbetrieb", "push": "Anschieben", "hold": "Vorhaltezeit", "blocked": "Gesperrt", "startup": "Inbetriebnahme", "frost": "Frostschutz", "screed": "Estrich", "cooling_excess": "Kühlung/Überschuss", "manual": "Manuell", "emergency": "Notbetrieb", "not_installed": "Nicht installiert", "cooling_active": "Kühlkreis aktiv"
+        }
+      },
+      "status_hk2": {
+        "name": "Status Heizkreis 2",
+        "state": {
+          "off": "Aus", "heating": "Heizbetrieb", "push": "Anschieben", "hold": "Vorhaltezeit", "blocked": "Gesperrt", "startup": "Inbetriebnahme", "frost": "Frostschutz", "screed": "Estrich", "cooling_excess": "Kühlung/Überschuss", "manual": "Manuell", "emergency": "Notbetrieb", "not_installed": "Nicht installiert", "cooling_active": "Kühlkreis aktiv"
+        }
+      },
+      "status_ww": {
+        "name": "Status Warmwasser",
+        "state": {
+          "no_demand": "Kein Bedarf", "loading": "Ladung läuft", "frost": "Frostschutz", "waiting": "Warten", "pump_runon": "Nachlauf Ladepumpe", "buffer_hot": "Puffer/Kessel zu warm", "wait_draw": "Warten auf Wasserentnahme", "draw_off": "Wasserentnahme", "startup": "Inbetriebnahme", "manual": "Manuell", "circ_active": "Betrieb Zirkulation", "circ_runon": "Nachlauf Zirkulation", "circ_lock": "Zirkulation Sperrzeit", "blocked_smarthome": "Sperre durch SmartHome"
+        }
+      },
+      "status_circ": {
+        "name": "Status Zirkulation",
+        "state": {
+          "unused": "Nicht verwendet", "runon": "Nachlauf", "blocked": "Gesperrt", "off": "Aus", "blocked_sensor": "Gesperrt (Fühler)", "on": "An", "frost": "Frostschutz", "blocked_smarthome": "Sperre SmartHome"
+        }
+      },
+      "status_solar": {
+        "name": "Status Solar",
+        "state": {
+          "waiting": "Wartet", "frost": "Frostschutz", "push": "Anschieben", "delay": "Einschaltverzögerung", "loading": "Ladung läuft", "storage_full": "Speicher voll", "collector_overheat": "Kollektor überhitzt", "manual": "Manuell", "measuring": "Messung", "emergency": "Notbetrieb"
+        }
+      },
+      "status_pool": {
+        "name": "Status Pool",
+        "state": {
+          "no_extension": "Keine Erweiterung", "off": "Aus", "blocked": "Gesperrt", "warm_enough": "Warm genug", "frost": "Frostschutz", "heating_normal": "Aufheizen Normal", "heating_comfort": "Aufheizen Komfort", "solar_excess": "Solarer Überschuss", "blocked_buffer_cold": "Gesperrt (Puffer kalt)", "blocked_ww_prio": "Gesperrt (WW Vorrang)", "cooling": "Kühlen"
+        }
+      },
+      "status_boiler": {
+        "name": "Status Kessel",
+        "state": {
+          "off": "Aus", "on": "An", "on_heating": "An für Heizkreis", "loading_buffer": "Lädt Puffer", "blocked": "Gesperrt", "cooling_hp": "Kühlung WP", "ww_prep": "WW Bereitung"
+        }
+      },
+      "status_wood": {
+        "name": "Status Holzkessel",
+        "state": {
+          "no_boiler": "Kein Kessel", "off": "Aus", "ignition": "Anheizen", "burning": "Leistungsbrand", "burnout": "Ausbrand", "cooling": "Nachkühlen", "shutdown": "Schaltet ab", "pump_push": "Pumpe schiebt an"
+        }
+      },
+      "status_pellet": {
+        "name": "Status Pelletsofen",
+        "state": {
+          "off": "Aus", "standby": "Standby", "ignition": "Anheizen", "burning": "Leistungsbrand", "test": "Test Abgasklappe", "runon": "Nachlauf", "cleaning": "Reinigung", "error": "Störung", "unknown": "Unbekannt"
+        }
+      }
     }
   }
 }
