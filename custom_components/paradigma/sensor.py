@@ -10,58 +10,48 @@ from .const import DOMAIN, CONF_SOLAR, CONF_HK2, CONF_POOL, CONF_ROOM, CONF_BOIL
 _LOGGER = logging.getLogger(__name__)
 
 
-
 STATUS_HK = { 
-    0: "Aus", 1: "Heizbetrieb", 2: "Anschieben", 3: "Vorhaltezeit", 
-    4: "Gesperrt", 5: "Inbetriebnahme", 6: "Frostschutz", 7: "Estrich", 
-    8: "Kühlung/Überschuss", 9: "Manuell", 10: "Notbetrieb", 
-    11: "Nicht installiert", 12: "Kühlkreis aktiv" 
+    0: "off", 1: "heating", 2: "push", 3: "hold", 
+    4: "blocked", 5: "startup", 6: "frost", 7: "screed", 
+    8: "cooling_excess", 9: "manual", 10: "emergency", 
+    11: "not_installed", 12: "cooling_active" 
 }
-
 
 STATUS_WW = { 
-    0: "Kein Bedarf", 1: "Ladung läuft", 2: "Frostschutz", 3: "Warten", 
-    4: "Nachlauf Ladepumpe", 5: "Puffer/Kessel zu warm", 
-    6: "Warten auf Wasserentnahme", 7: "Wasserentnahme", 8: "Inbetriebnahme", 
-    9: "Manuell", 10: "Betrieb Zirkulation", 11: "Nachlauf Zirkulation", 
-    12: "Zirkulation Sperrzeit", 13: "Sperre durch SmartHome" 
+    0: "no_demand", 1: "loading", 2: "frost", 3: "waiting", 
+    4: "pump_runon", 5: "buffer_hot", 
+    6: "wait_draw", 7: "draw_off", 8: "startup", 
+    9: "manual", 10: "circ_active", 11: "circ_runon", 
+    12: "circ_lock", 13: "blocked_smarthome" 
 }
-
 
 STATUS_POOL = { 
-    0: "Keine Erweiterung", 1: "Aus", 2: "Gesperrt", 3: "Warm genug", 
-    4: "Frostschutz", 5: "Aufheizen Normal", 6: "Aufheizen Komfort", 
-    7: "Solarer Überschuss", 8: "Gesperrt (Puffer kalt)", 
-    9: "Gesperrt (WW Vorrang)", 10: "Kühlen" 
+    0: "no_extension", 1: "off", 2: "blocked", 3: "warm_enough", 
+    4: "frost", 5: "heating_normal", 6: "heating_comfort", 
+    7: "solar_excess", 8: "blocked_buffer_cold", 
+    9: "blocked_ww_prio", 10: "cooling" 
 }
-
 
 STATUS_CIRC = { 
-    0: "Nicht verwendet", 1: "Nachlauf", 2: "Gesperrt", 3: "Aus", 
-    4: "Gesperrt (Fühler)", 5: "An", 6: "Frostschutz", 7: "Sperre SmartHome" 
+    0: "unused", 1: "runon", 2: "blocked", 3: "off", 
+    4: "blocked_sensor", 5: "on", 6: "frost", 7: "blocked_smarthome" 
 }
-
 
 STATUS_BOILER = { 
-    0: "Aus", 1: "An", 2: "An für Heizkreis", 3: "Lädt Puffer", 
-    4: "Gesperrt", 5: "Kühlung WP", 6: "WW Bereitung" 
+    0: "off", 1: "on", 2: "on_heating", 3: "loading_buffer", 
+    4: "blocked", 5: "cooling_hp", 6: "ww_prep" 
 }
-
 
 STATUS_SOLAR = { 
-    0: "Wartet", 1: "Frostschutz", 2: "Anschieben", 3: "Einschaltverzögerung", 
-    4: "Ladung läuft", 5: "Speicher voll", 6: "Kollektor überhitzt", 
-    7: "Manuell", 8: "Messung", 9: "Notbetrieb" 
+    0: "waiting", 1: "frost", 2: "push", 3: "delay", 
+    4: "loading", 5: "storage_full", 6: "collector_overheat", 
+    7: "manual", 8: "measuring", 9: "emergency" 
 }
 
-
-STATUS_WOOD = { 0: "Kein Kessel", 1: "Aus", 2: "Anheizen", 3: "Leistungsbrand", 4: "Ausbrand", 5: "Nachkühlen", 6: "Schaltet ab", 7: "Pumpe schiebt an" }
-STATUS_PELLET = { 0: "Aus", 1: "Standby", 2: "Anheizen", 3: "Leistungsbrand", 4: "Test Abgasklappe", 5: "Nachlauf", 6: "Reinigung", 7: "Störung", 8: "Unbekannt" }
+STATUS_WOOD = { 0: "no_boiler", 1: "off", 2: "ignition", 3: "burning", 4: "burnout", 5: "cooling", 6: "shutdown", 7: "pump_push" }
+STATUS_PELLET = { 0: "off", 1: "standby", 2: "ignition", 3: "burning", 4: "test", 5: "runon", 6: "cleaning", 7: "error", 8: "unknown" }
 
 SENSOR_DEFINITIONS = [
-    # Key, Unit, Class, Factor, RegisterType, RegisterOffset, RequiresConfig
-    
-    
     ("outdoor_temp", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, 0.1, "input", 0, None),
     ("flow_hk1", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, 0.1, "input", 1, None),
     ("return_hk1", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, 0.1, "input", 2, None),
@@ -70,38 +60,32 @@ SENSOR_DEFINITIONS = [
     ("buffer_bottom", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, 0.1, "input", 5, None),
     ("circ_return_temp", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, 0.1, "input", 6, None),
 
-    # --- Raumfühler (Optional) ---
     ("room_temp_hk1", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, 0.1, "input", 9, CONF_ROOM),
     ("room_temp_hk2", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, 0.1, "input", 10, CONF_ROOM),
 
-    # --- Heizkreis 2 (Optional) ---
     ("flow_hk2", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, 0.1, "input", 7, CONF_HK2),
     ("return_hk2", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, 0.1, "input", 8, CONF_HK2),
 
-    # --- Kessel (Gas/Öl) ---
     ("boiler_flow", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, 0.1, "input", 12, CONF_BOILER),
     ("boiler_return", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, 0.1, "input", 13, CONF_BOILER),
     ("boiler_hours", UnitOfTime.HOURS, SensorDeviceClass.DURATION, 1.0, "holding", 27, CONF_BOILER),
     ("boiler_starts", None, None, 1.0, "holding", 29, CONF_BOILER),
 
-    # --- Holz / Pellets (Optional) ---
     ("wood_flow", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, 0.1, "input", 14, CONF_WOOD),
     ("wood_return", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, 0.1, "input", 15, CONF_WOOD),
     ("wood_buffer_top", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, 0.1, "input", 16, CONF_WOOD),
     ("pellet_hours", UnitOfTime.HOURS, SensorDeviceClass.DURATION, 1.0, "holding", 31, CONF_WOOD),
     
-    # --- Solar (Optional) ---
+    
     ("collector_temp", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, 0.1, "input", 11, CONF_SOLAR),
     ("solar_power", UnitOfPower.KILO_WATT, SensorDeviceClass.POWER, 0.1, "holding", 19, CONF_SOLAR), 
-    ("solar_day", UnitOfEnergy.KILO_WATT_HOUR, SensorDeviceClass.ENERGY, 1.0, "holding", 20, CONF_SOLAR),
-    ("solar_total", UnitOfEnergy.KILO_WATT_HOUR, SensorDeviceClass.ENERGY, 1.0, "holding", 21, CONF_SOLAR),
+    ("solar_day", UnitOfEnergy.KILO_WATT_HOUR, SensorDeviceClass.ENERGY, 0.1, "holding", 20, CONF_SOLAR),
+    ("solar_total", UnitOfEnergy.MEGA_WATT_HOUR, SensorDeviceClass.ENERGY, 1.0, "holding", 21, CONF_SOLAR), 
 
-    # --- Pool (Optional) ---
     ("pool_temp", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, 0.1, "input", 19, CONF_POOL),
     ("pool_flow", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, 0.1, "input", 20, CONF_POOL),
     ("pool_return", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, 0.1, "input", 21, CONF_POOL),
     
-    # --- STATUS MELDUNGEN ---
     ("status_ww", None, None, 1, "holding_status_ww", 34, None),
     ("status_circ", None, None, 1, "holding_status_circ", 35, None),
     ("status_hk1", None, None, 1, "holding_status_hk", 36, None),
@@ -135,7 +119,6 @@ class ParadigmaDataCoordinator(DataUpdateCoordinator):
     async def _async_update_data(self):
         data = {}
         
-        # 1. Input Registers
         offsets_input = [0, 1, 2, 3, 4, 5, 6]
         if self.config.get(CONF_HK2): offsets_input.extend([7, 8])
         if self.config.get(CONF_ROOM): offsets_input.extend([9, 10])
@@ -148,7 +131,6 @@ class ParadigmaDataCoordinator(DataUpdateCoordinator):
             val = await self.hass.async_add_executor_job(self.hub.read_input_registers, off, 1)
             if val: data[f"input_{off}"] = val[0]
 
-        # 2. Holding Registers
         offsets_holding = [34, 35, 36]
         if self.config.get(CONF_HK2): offsets_holding.append(37)
         if self.config.get(CONF_SOLAR): offsets_holding.extend([19, 20, 21, 39])
@@ -195,7 +177,7 @@ class ParadigmaSensor(CoordinatorEntity, SensorEntity):
         
         if raw is None or raw in [0x8000, 0xFFFF]: return None
 
-        # --- Status Text-Übersetzung ---
+        # Hier werden die Slugs geladen
         if "status_hk" in self._type: return STATUS_HK.get(raw, str(raw))
         if "status_ww" in self._type: return STATUS_WW.get(raw, str(raw))
         if "status_circ" in self._type: return STATUS_CIRC.get(raw, str(raw))
@@ -218,4 +200,8 @@ class ParadigmaSensor(CoordinatorEntity, SensorEntity):
     
     @property
     def device_class(self):
-        return self._dev_class
+        if self._dev_class:
+            return self._dev_class
+        if self._unit is None and "status" in self._type:
+            return SensorDeviceClass.ENUM
+        return None
