@@ -77,7 +77,8 @@ SENSOR_DEFINITIONS = [
     ("wood_flow", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, 0.1, "input", 14, CONF_WOOD),
     ("wood_return", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, 0.1, "input", 15, CONF_WOOD),
     ("wood_buffer_top", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, 0.1, "input", 16, CONF_WOOD),
-    ("pellet_hours", UnitOfTime.HOURS, SensorDeviceClass.DURATION, 1.0, "holding_32", 31, CONF_WOOD),
+    ("pellet_hours", UnitOfTime.HOURS, SensorDeviceClass.DURATION, 1.0, "holding_32", 27, CONF_WOOD),
+    ("pellet_starts", None, None, 1.0, "holding_32", 29, CONF_WOOD),
     
 
     ("collector_temp", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, 0.1, "input", 11, CONF_SOLAR),
@@ -151,7 +152,7 @@ class ParadigmaDataCoordinator(DataUpdateCoordinator):
         offsets_holding_32 = []
         if self.config.get(CONF_SOLAR): offsets_holding_32.append(21)
         if self.config.get(CONF_BOILER): offsets_holding_32.extend([27, 29])
-        if self.config.get(CONF_WOOD): offsets_holding_32.append(31)
+        if self.config.get(CONF_WOOD): offsets_holding_32.extend([27, 29])
 
         for off in offsets_holding_32:
             try:
@@ -201,7 +202,7 @@ class ParadigmaSensor(CoordinatorEntity, SensorEntity):
             
         raw = self.coordinator.data.get(key)
         
-        if raw is None or raw in [0x8000, 0xFFFF]: return None
+        if raw is None or raw in [0x8000, 0xFFFF, 0xFFFFFFFF]: return None
 
 
         if "status_hk" in self._type: return STATUS_HK.get(raw, str(raw))
