@@ -202,7 +202,7 @@ class ParadigmaSensor(CoordinatorEntity, SensorEntity):
             
         raw = self.coordinator.data.get(key)
         
-        if raw is None or raw in [0x8000, 0xFFFF, 0xFFFFFFFF]: return None
+        if raw is None or raw in [0x7FFF, 0x8000, 0xFFFF, 0xFFFFFFFF]: return None
 
 
         if "status_hk" in self._type: return STATUS_HK.get(raw, str(raw))
