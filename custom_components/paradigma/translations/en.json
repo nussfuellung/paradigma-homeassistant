@@ -72,6 +72,7 @@
       "wood_return": { "name": "Wood Return" },
       "wood_buffer_top": { "name": "Wood Buffer Top" },
       "pellet_hours": { "name": "Pellet Hours" },
+      "pellet_starts": { "name": "Pellet Starts"},
       "flow_hk2": { "name": "Flow HK2" },
       "return_hk2": { "name": "Return HK2" },
       "collector_temp": { "name": "Collector Temperature" },

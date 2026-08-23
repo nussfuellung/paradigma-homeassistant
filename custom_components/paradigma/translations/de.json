@@ -72,6 +72,7 @@
       "wood_return": { "name": "Holz Rücklauf" },
       "wood_buffer_top": { "name": "Holz Puffer Oben" },
       "pellet_hours": { "name": "Pellet Betriebsstunden" },
+      "pellet_starts": { "name": "Pelletkessel Starts"},
       "flow_hk2": { "name": "Vorlauf HK2" },
       "return_hk2": { "name": "Rücklauf HK2" },
       "collector_temp": { "name": "Kollektortemperatur" },
