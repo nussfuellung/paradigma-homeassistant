@@ -10,7 +10,6 @@
 ![Paradigma Integration Logo](logo.png)
 
 > [!TIP]
-<<<<<<< HEAD
 > **Now available in the Marketplace! Just search for "Paradigma" in HACS. No need to add a custom repository anymore.**
 
 This is a custom integration for **Paradigma** heating systems for Home Assistant. It communicates locally via **Modbus TCP**.
