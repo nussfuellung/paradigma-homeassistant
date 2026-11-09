@@ -10,11 +10,17 @@
 ![Paradigma Integration Logo](logo.png)
 
 > [!TIP]
+<<<<<<< HEAD
 > **Now available in the Marketplace! Just search for "Paradigma" in HACS. No need to add a custom repository anymore.**
 
 This is a custom integration for **Paradigma** heating systems for Home Assistant. It communicates locally via **Modbus TCP**.
 
 A major update adding support for **heat pumps** is planned for the first half of this year. You will receive an update notification via Marketplace as soon as this feature becomes available. (There are already experimental features included)
+=======
+> **Now available in the Home Assistant Marketplace! Just search for "Paradigma" in the Marketplace. No need to add a custom repository anymore.**
+
+This is a custom integration for **Paradigma** heating systems for Home Assistant. It communicates locally via **Modbus TCP**.
+>>>>>>> 852c050 (change readme)
 
 > [!IMPORTANT]
 > **If you previously added your heating system manually via YAML, make sure to remove all old Modbus files/entries from your `configuration.yaml`. Otherwise, the system may block the Modbus communication.**
@@ -28,41 +34,42 @@ A major update adding support for **heat pumps** is planned for the first half o
 ### Compatible Devices
 This integration is designed for Paradigma controllers that support the "Modbus-Schnittstelle für das Smarthome-System" protocol (Protocol Version 1.1).
 
-* **SystaSmartC II**
-* **SystaComfort II**
-* **Extensions:** SystaComfort Wood, SystaComfort Pool, SystaExpresso (Fresh water station).
+- **SystaSmartC II**
+- **SystaComfort II**
+- **Extensions:** SystaComfort Wood, SystaComfort Pool, SystaExpresso (Fresh water station), EzeeMaster / EMS (Heat Pumps).
 
 ### Features
 
-The integration connects to the heating controller (Unit ID 1) and provides a fully modular setup. You can enable or disable specific components during configuration.
+The integration connects to the heating controller (Unit ID 1 & Unit ID 2) and provides a fully modular setup. Hardware detection is mostly automatic, but you can manually enable or disable specific components during configuration.
 
 #### 🌡️ Sensors (Read-Only)
-* **Standard:** Outdoor Temp, Flow/Return (HK1), DHW Temp, Buffer (Top/Bottom), Circulation Return.
-* **Status:** Clear-text status messages (fully translated) for Heating Circuits, DHW, Circulation, and Boiler.
-* **Optional Components (Selectable):**
-    * **Solar:** Collector Temp, Current Power, Daily Yield, Total Yield.
+- **Standard:** Outdoor Temp, Flow/Return (HK1), DHW Temp, Buffer (Top/Bottom), Circulation Return.
+- **Status & Errors:** Clear-text status messages (fully translated) for Heating Circuits, DHW, Circulation, and Boiler. Dedicated sensor for Controller Error Codes.
+- **Optional Components (Selectable):**
+    * **Solar:** Collector Temp, Outdoor Temp (Collector), Current Power, Daily Yield, Total Yield.
     * **Heating Circuit 2 (HK2):** Flow/Return, Room Temp, Status.
     * **Boiler (Gas/Oil):** Flow/Return, Operation Hours, Starts, Status.
-    * **Wood/Pellet:** Flow/Return, Buffer Top, Pellet Consumption, Operation Hours, Detailed Status messages (e.g., "Burnout", "Ignition").
+    * **Wood/Pellet (e.g. PELEO):** Flow/Return, Buffer Top, Pellet Consumption, Operation Hours, Detailed Status messages (e.g., "Burnout", "Ignition").
+    * **Heat Pump / EMS:** Current Heat Pump Power, Heater Rod Power, PV Surplus (Write), Grid Limit (Write), Tariff Control (Select), Model ID, Software Version.
     * **Pool:** Temp, Flow/Return, Status.
     * **Room Sensors:** Room temperatures for HK1 and HK2.
+    * **SystaExpresso (Fresh water):** Heat quantity for DHW and Circulation.
 
 #### 🎛️ Controls (Read/Write)
-* **Heating Circuits:** Set target **Flow Temperature** (Vorlauf) via Number entities for HK1 and HK2.
-* **Domestic Hot Water:** Set target water temperature and toggle On/Off via a **Water Heater** entity.
-* **Buffer/Boiler:** Set target temperatures for Buffer Top and Boiler.
+- **Heating Circuits:** Set target **Flow Temperature** (Vorlauf) via Number entities for HK1 and HK2. (Max limits are dynamically fetched from the controller).
+- **Domestic Hot Water:** Set target water temperature and toggle On/Off via a **Water Heater** entity.
+- **Heat Pump Tariffs:** Select the current Heat Pump Tariff (Normal, High/Block, Low/Release) via a Select entity.
 
 #### 🔘 Switches
-* **DHW Enable:** Enable/Disable hot water preparation globally.
-* **Circulation Enable:** Enable/Disable circulation pump globally.
+- **DHW Enable:** Enable/Disable hot water preparation globally.
+- **Circulation Enable:** Enable/Disable circulation pump globally.
 
-### Installation via HACS
+### Installation via Marketplace
 
-1.  Open **HACS** in Home Assistant.
-2.  Go to **Integrations** and click on **Explore & Download Repositories** (or use the search bar).
-3.  Search for **Paradigma**.
-4.  Click **Download** / **Install**.
-5.  Restart Home Assistant.
+1.  Open **Marketplace** in Home Assistant (formerly known as HACS).
+2.  Search for **Paradigma**.
+3.  Click **Download** / **Install**.
+4.  Restart Home Assistant.
 
 ### Configuration
 
@@ -73,7 +80,8 @@ The integration connects to the heating controller (Unit ID 1) and provides a fu
     * **Port:** Default is `502`.
     * **Unit ID:** Default is `1`.
 4.  **Select your installed components:**
-    * Check the boxes for **Solar**, **Heating Circuit 2**, **Pool**, **Room Sensors**, **Boiler**, or **Wood/Pellet** to enable the respective sensors.
+    * The integration will try to auto-detect your setup (e.g., HK2, Boiler).
+    * Check or uncheck the boxes for **Solar**, **Heating Circuit 2**, **Pool**, **Room Sensors**, **Boiler**, **Wood/Pellet**, or **Heat Pump / EMS** to enable the respective sensors.
 
 > **Note:** You can change these settings at any time by clicking **"Configure"** on the integration entry.
 
@@ -85,41 +93,42 @@ The integration connects to the heating controller (Unit ID 1) and provides a fu
 ### Kompatible Geräte
 Diese Integration unterstützt Paradigma Regelungen, die das Protokoll "Modbus-Schnittstelle für das Smarthome-System" (Protokoll V1.1) unterstützen.
 
-* **SystaSmartC II**
-* **SystaComfort II**
-* **Erweiterungen:** SystaComfort Wood, SystaComfort Pool, SystaExpresso.
+- **SystaSmartC II**
+- **SystaComfort II**
+- **Erweiterungen:** SystaComfort Wood, SystaComfort Pool, SystaExpresso (Frischwasserstation), EzeeMaster / EMS (Wärmepumpen).
 
 ### Funktionen
 
-Die Integration verbindet sich mit dem Heizungsregler (Unit ID 1) und bietet einen modularen Aufbau. Komponenten können bei der Einrichtung an- oder abgewählt werden.
+Die Integration verbindet sich mit dem Heizungsregler (Unit ID 1 & Unit ID 2) und bietet einen modularen Aufbau. Viele Baugruppen werden automatisch erkannt, können aber manuell an- oder abgewählt werden.
 
 #### 🌡️ Sensoren (Nur Lesen)
-* **Standard:** Außentemperatur, Vorlauf/Rücklauf (HK1), Warmwasser, Puffer (Oben/Unten), Zirkulation Rücklauf.
-* **Status:** Klartext-Statusmeldungen (mehrsprachig) für Heizkreise, Warmwasser, Zirkulation und Kessel (z. B. "Heizbetrieb", "Vorhaltezeit", "Ladung läuft").
-* **Optionale Komponenten (Wählbar):**
-    * **Solar:** Kollektor-Temp, Leistung, Tagesertrag, Gesamtertrag.
+- **Standard:** Außentemperatur, Vorlauf/Rücklauf (HK1), Warmwasser, Puffer (Oben/Unten), Zirkulation Rücklauf.
+- **Status & Störungen:** Klartext-Statusmeldungen (mehrsprachig) für Heizkreise, Warmwasser, Zirkulation und Kessel (z. B. "Heizbetrieb", "Ladung läuft"). Eigener Sensor für Regler-Störcodes.
+- **Optionale Komponenten (Wählbar):**
+    * **Solar:** Kollektor-Temp, Außentemp (Kollektor), Leistung, Tagesertrag, Gesamtertrag.
     * **Heizkreis 2 (HK2):** Vorlauf/Rücklauf, Raumtemperatur, Status.
     * **Kessel (Gas/Öl):** Vorlauf/Rücklauf, Betriebsstunden, Starts, Status.
-    * **Holz/Pellets:** Vorlauf/Rücklauf, Puffer Oben, Pelletverbrauch, Betriebsstunden, Detaillierter Status (z.B. "Ausbrand", "Anheizen").
+    * **Holz/Pellets (z.B. PELEO):** Vorlauf/Rücklauf, Puffer Oben, Pelletverbrauch (kg), Betriebsstunden, Detaillierter Status (z.B. "Ausbrand", "Anheizen").
+    * **Wärmepumpe / EMS:** Aktuelle Wärmepumpen-Leistung, Heizstab-Leistung, PV-Überschuss (Schreiben), Netzlimit (Schreiben), Tarif-Steuerung (Auswahl), Model-ID, Software-Version.
     * **Pool:** Temp, Vorlauf/Rücklauf, Status.
     * **Raumfühler:** Raumtemperaturen für HK1 und HK2 (falls Fernbedienung vorhanden).
+    * **SystaExpresso (Frischwasser):** Wärmemengen-Zähler für Trinkwasser und Zirkulation.
 
 #### 🎛️ Steuerung (Lesen/Schreiben)
-* **Heizkreise:** Einstellen der **Soll-Vorlauftemperatur** über Zahlen-Entitäten (Number) für HK1 und HK2.
-* **Warmwasser:** Einstellen der Warmwasser-Solltemperatur und An/Aus über eine **Wassererwärmer** (Water Heater) Entität.
-* **Puffer/Kessel:** Einstellen der Solltemperaturen für Puffer Oben und den Kessel.
+- **Heizkreise:** Einstellen der **Soll-Vorlauftemperatur** über Zahlen-Entitäten (Number) für HK1 und HK2. (Die maximal erlaubten Werte werden dynamisch aus dem Regler ausgelesen).
+- **Warmwasser:** Einstellen der Warmwasser-Solltemperatur und An/Aus über eine **Wassererwärmer** (Water Heater) Entität.
+- **Wärmepumpen-Tarife:** Auswahl des aktuellen Wärmepumpen-Tarifs (Normal, Hochtarif/Sperre, Niedertarif/Freigabe) über eine Select-Entität.
 
 #### 🔘 Schalter
-* **Warmwasser Freigabe:** Ein-/Ausschalten der Warmwasserbereitung (DHW Enable).
-* **Zirkulation Freigabe:** Ein-/Ausschalten der Zirkulationspumpe (Circ Enable).
+- **Warmwasser Freigabe:** Ein-/Ausschalten der Warmwasserbereitung (DHW Enable).
+- **Zirkulation Freigabe:** Ein-/Ausschalten der Zirkulationspumpe (Circ Enable).
 
-### Installation über HACS
+### Installation über Marketplace
 
-1.  Öffnen Sie **HACS** in Home Assistant.
-2.  Gehen Sie zu **Integrationen** und klicken Sie auf **Durchsuchen & Herunterladen** (oder nutzen Sie die Suchfunktion).
-3.  Suchen Sie nach **Paradigma**.
-4.  Klicken Sie auf **Herunterladen**.
-5.  Starten Sie Home Assistant neu.
+1.  Öffnen Sie **Marketplace** in Home Assistant (früher bekannt als HACS).
+2.  Suchen Sie nach **Paradigma**.
+3.  Klicken Sie auf **Herunterladen**.
+4.  Starten Sie Home Assistant neu.
 
 ### Konfiguration
 
@@ -130,7 +139,8 @@ Die Integration verbindet sich mit dem Heizungsregler (Unit ID 1) und bietet ein
     * **Port:** Standard ist `502`.
     * **Unit ID:** Standard ist `1`.
 4.  **Wählen Sie Ihre installierten Komponenten:**
-    * Setzen Sie Haken bei **Solar**, **Heizkreis 2**, **Pool**, **Raumfühler**, **Kessel** oder **Holz/Pellet**, um die entsprechenden Sensoren zu aktivieren.
+    * Die Integration versucht, Ihre Hardware (z.B. HK2, Kessel) automatisch zu erkennen.
+    * Setzen oder entfernen Sie Haken bei **Solar**, **Heizkreis 2**, **Pool**, **Raumfühler**, **Kessel**, **Holz/Pellet** oder **Wärmepumpe / EMS**, um die entsprechenden Sensoren zu steuern.
 
 > **Hinweis:** Sie können diese Einstellungen jederzeit nachträglich ändern, indem Sie bei der Integration auf **"Konfigurieren"** klicken.
 
