@@ -10,16 +10,9 @@
 ![Paradigma Integration Logo](logo.png)
 
 > [!TIP]
-> **Now available in the Marketplace! Just search for "Paradigma" in HACS. No need to add a custom repository anymore.**
-
-This is a custom integration for **Paradigma** heating systems for Home Assistant. It communicates locally via **Modbus TCP**.
-
-A major update adding support for **heat pumps** is planned for the first half of this year. You will receive an update notification via Marketplace as soon as this feature becomes available. (There are already experimental features included)
-=======
 > **Now available in the Home Assistant Marketplace! Just search for "Paradigma" in the Marketplace. No need to add a custom repository anymore.**
 
 This is a custom integration for **Paradigma** heating systems for Home Assistant. It communicates locally via **Modbus TCP**.
->>>>>>> 852c050 (change readme)
 
 > [!IMPORTANT]
 > **If you previously added your heating system manually via YAML, make sure to remove all old Modbus files/entries from your `configuration.yaml`. Otherwise, the system may block the Modbus communication.**
