@@ -82,6 +82,13 @@
       "pool_temp": { "name": "Pool Temperature" },
       "pool_flow": { "name": "Pool Flow" },
       "pool_return": { "name": "Pool Return" },
+      "solar_outdoor_temp": { "name": "Collector Outdoor Temperature" },
+      "error_code": {
+        "name": "Error Code Controller",
+        "state": {
+          "no_error": "No Error"
+        }
+      },
       "status_hk1": {
         "name": "Status HK1",
         "state": {
@@ -127,7 +134,7 @@
       "status_wood": {
         "name": "Status Wood Boiler",
         "state": {
-          "no_boiler": "No Boiler", "off": "Off", "ignition": "Ignition", "burning": "Burning", "burnout": "Burnout", "cooling": "Cooling", "shutdown": "Shutdown", "pump_push": "Pump Pushing"
+          "off": "Off", "ignition": "Ignition", "burning": "Burning", "burnout": "Burnout", "cooling": "Cooling", "shutdown": "Shutdown", "pump_push": "Pump Pushing"
         }
       },
       "status_pellet": {

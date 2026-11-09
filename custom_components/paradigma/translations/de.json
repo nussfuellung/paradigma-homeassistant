@@ -82,6 +82,13 @@
       "pool_temp": { "name": "Pool Temperatur" },
       "pool_flow": { "name": "Pool Vorlauf" },
       "pool_return": { "name": "Pool Rücklauf" },
+      "solar_outdoor_temp": { "name": "Außentemperatur Kollektor" },
+      "error_code": {
+        "name": "Störcode Heizungsregler",
+        "state": {
+          "no_error": "Keine Störung"
+        }
+      },
       "status_hk1": {
         "name": "Status Heizkreis 1",
         "state": {
@@ -127,7 +134,7 @@
       "status_wood": {
         "name": "Status Holzkessel",
         "state": {
-          "no_boiler": "Kein Kessel", "off": "Aus", "ignition": "Anheizen", "burning": "Leistungsbrand", "burnout": "Ausbrand", "cooling": "Nachkühlen", "shutdown": "Schaltet ab", "pump_push": "Pumpe schiebt an"
+          "off": "Aus", "ignition": "Anheizen", "burning": "Leistungsbrand", "burnout": "Ausbrand", "cooling": "Nachkühlen", "shutdown": "Schaltet ab", "pump_push": "Pumpe schiebt an"
         }
       },
       "status_pellet": {

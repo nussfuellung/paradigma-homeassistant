@@ -1,6 +1,7 @@
 """Number platform for Paradigma."""
 from homeassistant.components.number import NumberEntity
 from homeassistant.helpers.entity import DeviceInfo
+from homeassistant.const import UnitOfTemperature
 from .const import DOMAIN, CONF_HK2
 
 NUMBERS = [
@@ -31,6 +32,9 @@ class ParadigmaNumber(NumberEntity):
         self._attr_native_max_value = max_val
         self._attr_native_step = step
         self._attr_native_value = None
+        
+        # FIX für Bug #13 (Graphen trennen sich, Einheiten fehlen)
+        self._attr_native_unit_of_measurement = UnitOfTemperature.CELSIUS
 
     @property
     def device_info(self):
