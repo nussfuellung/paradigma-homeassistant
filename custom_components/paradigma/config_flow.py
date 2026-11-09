@@ -1,36 +1,50 @@
-"""Config flow for Paradigma integration."""
-import logging
+"""Config flow for Paradigma."""
 import voluptuous as vol
-
 from homeassistant import config_entries
-from homeassistant.core import callback
-from homeassistant.const import CONF_HOST, CONF_PORT, CONF_NAME, CONF_SCAN_INTERVAL
-from .const import (
-    DOMAIN, DEFAULT_PORT, DEFAULT_SLAVE_ID, CONF_SLAVE_ID, DEFAULT_SCAN_INTERVAL,
-    CONF_SOLAR, CONF_HK2, CONF_POOL, CONF_ROOM, CONF_BOILER, CONF_WOOD, DEFAULT_NAME
-)
+from homeassistant.const import CONF_HOST, CONF_PORT, CONF_NAME
+from .const import DOMAIN, DEFAULT_NAME, DEFAULT_PORT, DEFAULT_SLAVE_ID, CONF_SLAVE_ID
+from .const import CONF_SOLAR, CONF_HK2, CONF_POOL, CONF_ROOM, CONF_BOILER, CONF_WOOD, CONF_EMS
 from .hub import ParadigmaHub
 
-_LOGGER = logging.getLogger(__name__)
-
-class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
-    """Handle a config flow for Paradigma."""
-    VERSION = 1
-
-    @staticmethod
-    @callback
-    def async_get_options_flow(config_entry):
-        return OptionsFlowHandler(config_entry)
+class ParadigmaConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
+    VERSION = 2
 
     async def async_step_user(self, user_input=None):
         errors = {}
         if user_input is not None:
-            # Verbindungstest vor dem Erstellen
             hub = ParadigmaHub(self.hass, user_input[CONF_NAME], user_input[CONF_HOST], user_input[CONF_PORT], user_input[CONF_SLAVE_ID])
             connected = await self.hass.async_add_executor_job(hub.connect)
-            hub.close()
-
+            await self.hass.async_add_executor_job(hub.close)
+            
             if connected:
+                # Automatisches Erkennen von Komponenten über Coil 1-8 (Presence-Bits)
+                # Coil 2: HK1, Coil 3: HK2, Coil 5: DHW
+                hk2_detected = False
+                boiler_detected = False
+                
+                try:
+                    # Kurzer Connect für Auto-Detect
+                    await self.hass.async_add_executor_job(hub.connect)
+                    # Dies ist eine vereinfachte Erkennung; in komplexeren Setups ggf. feiner Granulieren
+                    coils = await self.hass.async_add_executor_job(hub._client.read_coils, 1, 8, slave=user_input[CONF_SLAVE_ID])
+                    if not getattr(coils, "isError", lambda: True)():
+                        bits = coils.bits
+                        if len(bits) >= 8:
+                            hk2_detected = bits[2] # Coil 3
+                            boiler_detected = True # Default / Heuristisch
+                except Exception:
+                    pass
+                finally:
+                    await self.hass.async_add_executor_job(hub.close)
+                    
+                user_input[CONF_HK2] = hk2_detected
+                user_input[CONF_BOILER] = boiler_detected
+                user_input[CONF_SOLAR] = False
+                user_input[CONF_POOL] = False
+                user_input[CONF_ROOM] = False
+                user_input[CONF_WOOD] = False
+                user_input[CONF_EMS] = False
+                
                 return self.async_create_entry(title=user_input[CONF_NAME], data=user_input)
             else:
                 errors["base"] = "cannot_connect"
@@ -42,50 +56,34 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 vol.Required(CONF_HOST): str,
                 vol.Required(CONF_PORT, default=DEFAULT_PORT): int,
                 vol.Required(CONF_SLAVE_ID, default=DEFAULT_SLAVE_ID): int,
-                vol.Optional(CONF_SOLAR, default=True): bool,
-                vol.Optional(CONF_HK2, default=False): bool,
-                vol.Optional(CONF_BOILER, default=True): bool,
-                vol.Optional(CONF_WOOD, default=False): bool,
-                vol.Optional(CONF_ROOM, default=False): bool,
-                vol.Optional(CONF_POOL, default=False): bool,
-                vol.Optional(CONF_SCAN_INTERVAL, default=DEFAULT_SCAN_INTERVAL): int,
             }),
-            errors=errors,
+            errors=errors
         )
 
-class OptionsFlowHandler(config_entries.OptionsFlow):
-    """Handle options."""
+    @staticmethod
+    def async_get_options_flow(config_entry):
+        return ParadigmaOptionsFlowHandler(config_entry)
+
+class ParadigmaOptionsFlowHandler(config_entries.OptionsFlow):
     def __init__(self, config_entry):
-        
-        pass
+        self.config_entry = config_entry
 
     async def async_step_init(self, user_input=None):
-        """Manage the options."""
         if user_input is not None:
-            
-            new_data = self.config_entry.data.copy()
-            new_data.update(user_input)
+            new_data = {**self.config_entry.data, **user_input}
+            self.hass.config_entries.async_update_entry(self.config_entry, data=new_data)
+            return self.async_create_entry(title="", data={})
 
-            self.hass.config_entries.async_update_entry(
-                self.config_entry, data=new_data
-            )
-            return self.async_create_entry(title="", data=new_data)
-
-        
         data = self.config_entry.data
-        
         return self.async_show_form(
             step_id="init",
             data_schema=vol.Schema({
-                vol.Required(CONF_HOST, default=data.get(CONF_HOST)): str,
-                vol.Required(CONF_PORT, default=data.get(CONF_PORT)): int,
-                vol.Required(CONF_SLAVE_ID, default=data.get(CONF_SLAVE_ID)): int,
-                vol.Optional(CONF_SOLAR, default=data.get(CONF_SOLAR, True)): bool,
+                vol.Optional(CONF_SOLAR, default=data.get(CONF_SOLAR, False)): bool,
                 vol.Optional(CONF_HK2, default=data.get(CONF_HK2, False)): bool,
-                vol.Optional(CONF_BOILER, default=data.get(CONF_BOILER, True)): bool,
-                vol.Optional(CONF_WOOD, default=data.get(CONF_WOOD, False)): bool,
-                vol.Optional(CONF_ROOM, default=data.get(CONF_ROOM, False)): bool,
                 vol.Optional(CONF_POOL, default=data.get(CONF_POOL, False)): bool,
-                vol.Optional(CONF_SCAN_INTERVAL, default=data.get(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL)): int,
-            }),
+                vol.Optional(CONF_ROOM, default=data.get(CONF_ROOM, False)): bool,
+                vol.Optional(CONF_BOILER, default=data.get(CONF_BOILER, False)): bool,
+                vol.Optional(CONF_WOOD, default=data.get(CONF_WOOD, False)): bool,
+                vol.Optional(CONF_EMS, default=data.get(CONF_EMS, False)): bool,
+            })
         )

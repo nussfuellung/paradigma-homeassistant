@@ -2,12 +2,11 @@
 from homeassistant.const import Platform
 
 DOMAIN = "paradigma"
-DEFAULT_NAME = "SystaSmartC II"
+DEFAULT_NAME = "Paradigma Heizung"
 DEFAULT_PORT = 502
 CONF_SLAVE_ID = "slave_id"
 DEFAULT_SLAVE_ID = 1
 DEFAULT_SCAN_INTERVAL = 30
-
 
 CONF_SOLAR = "solar_installed"
 CONF_HK2 = "hk2_installed"
@@ -15,5 +14,6 @@ CONF_POOL = "pool_installed"
 CONF_ROOM = "room_sensor_installed"
 CONF_BOILER = "boiler_installed"
 CONF_WOOD = "wood_installed"
+CONF_EMS = "ems_installed"
 
-PLATFORMS = [Platform.SENSOR, Platform.NUMBER, Platform.SWITCH, Platform.WATER_HEATER]
+PLATFORMS = [Platform.SENSOR, Platform.NUMBER, Platform.SWITCH, Platform.WATER_HEATER, Platform.SELECT]
