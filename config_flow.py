@@ -16,7 +16,7 @@ class ParadigmaConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     def __init__(self):
         self.discovered_host = None
 
-        async def async_step_dhcp(self, discovery_info: dhcp.DhcpServiceInfo):
+    async def async_step_dhcp(self, discovery_info: dhcp.DhcpServiceInfo):
         """Handle network auto-discovery via DHCP."""
         self.discovered_host = discovery_info.ip
         
