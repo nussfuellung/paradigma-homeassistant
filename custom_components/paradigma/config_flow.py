@@ -1,6 +1,7 @@
 """Config flow for Paradigma."""
 import voluptuous as vol
 import logging
+from homeassistant.core import callback
 from homeassistant import config_entries
 from homeassistant.const import CONF_HOST, CONF_PORT, CONF_NAME
 from homeassistant.components import dhcp
@@ -117,20 +118,21 @@ class ParadigmaConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         )
 
     @staticmethod
+    @callback
     def async_get_options_flow(config_entry):
         return ParadigmaOptionsFlowHandler(config_entry)
 
 class ParadigmaOptionsFlowHandler(config_entries.OptionsFlow):
     def __init__(self, config_entry):
-        self.config_entry = config_entry
+        self._config_entry = config_entry
 
     async def async_step_init(self, user_input=None):
         if user_input is not None:
-            new_data = {**self.config_entry.data, **user_input}
-            self.hass.config_entries.async_update_entry(self.config_entry, data=new_data)
+            new_data = {**self._config_entry.data, **user_input}
+            self.hass.config_entries.async_update_entry(self._config_entry, data=new_data)
             return self.async_create_entry(title="", data={})
 
-        data = self.config_entry.data
+        data = self._config_entry.data
         return self.async_show_form(
             step_id="init",
             data_schema=vol.Schema({
