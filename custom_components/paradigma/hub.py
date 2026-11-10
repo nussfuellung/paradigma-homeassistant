@@ -44,41 +44,75 @@ class ParadigmaHub:
             self._closed = True
             self._client.close()
 
-    def read_input_registers(self, address, count, slave=None):
+    def _read_modbus(self, func_name, address, count, slave_override=None):
+        func = getattr(self._client, func_name)
+        target_slave = slave_override if slave_override is not None else self._slave_id
         with self._lock:
             if not self._check_reconnect(): return None
             try:
-                unit = slave if slave is not None else self._slave_id
-                res = self._client.read_input_registers(address, count, slave=unit)
+                try:
+                    res = func(address=address, count=count, device_id=target_slave)
+                except TypeError:
+                    try:
+                        res = func(address, count, slave=target_slave)
+                    except TypeError:
+                        res = func(address, count, unit=target_slave)
+                
                 if getattr(res, "isError", lambda: True)(): return None
-                return res.registers
+                return res
             except Exception as e:
-                _LOGGER.error("Fehler beim Lesen (Input %s): %s", address, e)
+                _LOGGER.error(f"Fehler beim Lesen ({func_name} {address}): {e}")
                 self._client.close()
                 return None
+
+    def read_input_registers(self, address, count, slave=None):
+        res = self._read_modbus("read_input_registers", address, count, slave)
+        return res.registers if res else None
 
     def read_holding_registers(self, address, count, slave=None):
-        with self._lock:
-            if not self._check_reconnect(): return None
-            try:
-                unit = slave if slave is not None else self._slave_id
-                res = self._client.read_holding_registers(address, count, slave=unit)
-                if getattr(res, "isError", lambda: True)(): return None
-                return res.registers
-            except Exception as e:
-                _LOGGER.error("Fehler beim Lesen (Holding %s): %s", address, e)
-                self._client.close()
-                return None
+        res = self._read_modbus("read_holding_registers", address, count, slave)
+        return res.registers if res else None
+
+    def read_coils(self, address, count, slave=None):
+        res = self._read_modbus("read_coils", address, count, slave)
+        return res.bits if res else None
 
     def write_register(self, address, value, slave=None):
+        target_slave = slave if slave is not None else self._slave_id
         with self._lock:
             if not self._check_reconnect(): return False
             try:
-                unit = slave if slave is not None else self._slave_id
-                res = self._client.write_register(address, value, slave=unit)
+                try:
+                    res = self._client.write_registers(address=address, values=[value], device_id=target_slave)
+                except TypeError:
+                    try:
+                        res = self._client.write_registers(address, [value], slave=target_slave)
+                    except TypeError:
+                        res = self._client.write_registers(address, [value], unit=target_slave)
+                
                 if getattr(res, "isError", lambda: True)(): return False
                 return True
             except Exception as e:
-                _LOGGER.error("Fehler beim Schreiben (Register %s): %s", address, e)
+                _LOGGER.error(f"Fehler beim Schreiben (Register {address}): {e}")
+                self._client.close()
+                return False
+
+    def write_coil(self, address, value, slave=None):
+        target_slave = slave if slave is not None else self._slave_id
+        with self._lock:
+            if not self._check_reconnect(): return False
+            try:
+                try:
+                    res = self._client.write_coil(address, value, device_id=target_slave)
+                except TypeError:
+                    try:
+                        res = self._client.write_coil(address, value, slave=target_slave)
+                    except TypeError:
+                        res = self._client.write_coil(address, value, unit=target_slave)
+                
+                if getattr(res, "isError", lambda: True)(): return False
+                return True
+            except Exception as e:
+                _LOGGER.error(f"Fehler beim Schreiben (Coil {address}): {e}")
                 self._client.close()
                 return False
