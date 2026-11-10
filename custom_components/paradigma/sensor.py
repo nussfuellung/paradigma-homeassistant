@@ -10,10 +10,9 @@ from .const import DOMAIN, CONF_SOLAR, CONF_HK2, CONF_POOL, CONF_ROOM, CONF_BOIL
 _LOGGER = logging.getLogger(__name__)
 
 STATUS_HK = { 
-    0: "off", 1: "heating", 2: "push", 3: "hold", 
-    4: "blocked", 5: "startup", 6: "frost", 7: "screed", 
-    8: "cooling_excess", 9: "manual", 10: "emergency", 
-    11: "not_installed", 12: "cooling_active" 
+    0: "off", 1: "outdoor_limit", 2: "room_limit", 3: "buffer_block", 
+    4: "dhw_priority", 6: "frost", 7: "solar_excess", 8: "preheat", 
+    9: "normal", 10: "comfort", 11: "reduced", 16: "station_dhw", 17: "screed"
 }
 
 STATUS_WW = { 
