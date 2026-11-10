@@ -5,16 +5,16 @@
     "@nussfuellung"
   ],
   "config_flow": true,
+  "dhcp": [
+    {
+      "macaddress": "00:1E:5C*"
+    }
+  ],
   "documentation": "https://github.com/nussfuellung/paradigma-homeassistant",
   "iot_class": "local_polling",
   "issue_tracker": "https://github.com/nussfuellung/paradigma-homeassistant/issues",
   "requirements": [
     "pymodbus>=3.0.0"
   ],
-  "version": "2.6.0",
-  "dhcp": [
-    {
-      "macaddress": "00:1E:5C*"
-    }
-  ]
+  "version": "2.6.0"
 }
