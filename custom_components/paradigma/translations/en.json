@@ -29,7 +29,8 @@
           "room_sensor_installed": "Room Sensors Installed",
           "boiler_installed": "Boiler (Gas/Oil) Installed",
           "wood_installed": "Wood/Pellet Boiler Installed",
-          "scan_interval": "Update Interval (Seconds)"
+          "scan_interval": "Update Interval (Seconds)",
+          "ems_installed": "Heat Pump (EMS) Installed"
         }
       }
     }
@@ -157,36 +158,36 @@
         "name": "Status HK1",
         "state": {
           "off": "Off",
-          "heating": "Heating",
-          "push": "Pushing",
-          "hold": "Hold Time",
-          "blocked": "Blocked",
-          "startup": "Startup",
+          "outdoor_limit": "Outdoor temperature limit",
+          "room_limit": "Room temperature limit",
+          "buffer_block": "Buffer too cold",
+          "dhw_priority": "DHW priority",
           "frost": "Frost Protection",
-          "screed": "Screed Drying",
-          "cooling_excess": "Cooling/Excess",
-          "manual": "Manual",
-          "emergency": "Emergency",
-          "not_installed": "Not Installed",
-          "cooling_active": "Cooling Active"
+          "solar_excess": "Solar excess",
+          "preheat": "Preheat",
+          "normal": "Normal",
+          "comfort": "Comfort",
+          "reduced": "Reduced",
+          "station_dhw": "Station DHW",
+          "screed": "Screed Drying"
         }
       },
       "status_hk2": {
         "name": "Status HK2",
         "state": {
           "off": "Off",
-          "heating": "Heating",
-          "push": "Pushing",
-          "hold": "Hold Time",
-          "blocked": "Blocked",
-          "startup": "Startup",
+          "outdoor_limit": "Outdoor temperature limit",
+          "room_limit": "Room temperature limit",
+          "buffer_block": "Buffer too cold",
+          "dhw_priority": "DHW priority",
           "frost": "Frost Protection",
-          "screed": "Screed Drying",
-          "cooling_excess": "Cooling/Excess",
-          "manual": "Manual",
-          "emergency": "Emergency",
-          "not_installed": "Not Installed",
-          "cooling_active": "Cooling Active"
+          "solar_excess": "Solar excess",
+          "preheat": "Preheat",
+          "normal": "Normal",
+          "comfort": "Comfort",
+          "reduced": "Reduced",
+          "station_dhw": "Station DHW",
+          "screed": "Screed Drying"
         }
       },
       "status_ww": {
@@ -289,6 +290,33 @@
           "error": "Error",
           "unknown": "Unknown"
         }
+      },
+      "target_buffer_top": {
+        "name": "Buffer top target temp"
+      },
+      "target_boiler": {
+        "name": "Boiler target temp"
+      },
+      "heat_dhw": {
+        "name": "DHW heat quantity"
+      },
+      "heat_circ": {
+        "name": "Circulation heat quantity"
+      },
+      "pellet_consumption": {
+        "name": "Pellet consumption"
+      },
+      "ems_hp_power": {
+        "name": "Heat Pump Power"
+      },
+      "ems_heater_power": {
+        "name": "Heater Rod Power"
+      },
+      "ems_model_id": {
+        "name": "EMS Model ID"
+      },
+      "ems_sw_version": {
+        "name": "EMS SW Version"
       }
     }
   }

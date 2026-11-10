@@ -29,7 +29,8 @@
           "room_sensor_installed": "Raumfühler vorhanden",
           "boiler_installed": "Kessel (Gas/Öl) vorhanden",
           "wood_installed": "Holz/Pellet Kessel vorhanden",
-          "scan_interval": "Abfrageintervall (Sekunden)"
+          "scan_interval": "Abfrageintervall (Sekunden)",
+          "ems_installed": "Wärmepumpe (EMS) vorhanden"
         }
       }
     }
@@ -157,36 +158,36 @@
         "name": "Status Heizkreis 1",
         "state": {
           "off": "Aus",
-          "heating": "Heizbetrieb",
-          "push": "Anschieben",
-          "hold": "Vorhaltezeit",
-          "blocked": "Gesperrt",
-          "startup": "Inbetriebnahme",
+          "outdoor_limit": "Außentemperaturgrenze",
+          "room_limit": "Raumtemperaturgrenze",
+          "buffer_block": "Puffer zu kalt",
+          "dhw_priority": "Warmwasservorrang",
           "frost": "Frostschutz",
-          "screed": "Estrich",
-          "cooling_excess": "Kühlung/Überschuss",
-          "manual": "Manuell",
-          "emergency": "Notbetrieb",
-          "not_installed": "Nicht installiert",
-          "cooling_active": "Kühlkreis aktiv"
+          "solar_excess": "Solarüberschuss",
+          "preheat": "Vorhaltezeit",
+          "normal": "Normal",
+          "comfort": "Komfort",
+          "reduced": "Absenken",
+          "station_dhw": "Wohnungsstation Warmwasser",
+          "screed": "Estrich"
         }
       },
       "status_hk2": {
         "name": "Status Heizkreis 2",
         "state": {
           "off": "Aus",
-          "heating": "Heizbetrieb",
-          "push": "Anschieben",
-          "hold": "Vorhaltezeit",
-          "blocked": "Gesperrt",
-          "startup": "Inbetriebnahme",
+          "outdoor_limit": "Außentemperaturgrenze",
+          "room_limit": "Raumtemperaturgrenze",
+          "buffer_block": "Puffer zu kalt",
+          "dhw_priority": "Warmwasservorrang",
           "frost": "Frostschutz",
-          "screed": "Estrich",
-          "cooling_excess": "Kühlung/Überschuss",
-          "manual": "Manuell",
-          "emergency": "Notbetrieb",
-          "not_installed": "Nicht installiert",
-          "cooling_active": "Kühlkreis aktiv"
+          "solar_excess": "Solarüberschuss",
+          "preheat": "Vorhaltezeit",
+          "normal": "Normal",
+          "comfort": "Komfort",
+          "reduced": "Absenken",
+          "station_dhw": "Wohnungsstation Warmwasser",
+          "screed": "Estrich"
         }
       },
       "status_ww": {
@@ -289,6 +290,33 @@
           "error": "Störung",
           "unknown": "Unbekannt"
         }
+      },
+      "target_buffer_top": {
+        "name": "Solltemperatur Puffer oben"
+      },
+      "target_boiler": {
+        "name": "Kesselsolltemperatur"
+      },
+      "heat_dhw": {
+        "name": "Wärmemenge Trinkwasser"
+      },
+      "heat_circ": {
+        "name": "Wärmemenge Zirkulation"
+      },
+      "pellet_consumption": {
+        "name": "Pelletverbrauch"
+      },
+      "ems_hp_power": {
+        "name": "Wärmepumpen Leistung"
+      },
+      "ems_heater_power": {
+        "name": "Heizstab Leistung"
+      },
+      "ems_model_id": {
+        "name": "EMS Model ID"
+      },
+      "ems_sw_version": {
+        "name": "EMS Software Version"
       }
     }
   }
