@@ -6,15 +6,9 @@
         "data": {
           "host": "IP-Adresse",
           "port": "Port",
-          "slave_id": "Slave ID / Unit ID",
-          "solar_installed": "Solaranlage vorhanden",
-          "hk2_installed": "Heizkreis 2 vorhanden",
-          "pool_installed": "Schwimmbad vorhanden",
-          "room_sensor_installed": "Raumfühler vorhanden",
-          "boiler_installed": "Kessel (Gas/Öl) vorhanden",
-          "wood_installed": "Holz/Pellet Kessel vorhanden",
-          "scan_interval": "Abfrageintervall (Sekunden)"
-        }
+          "slave_id": "Slave ID / Unit ID"
+        },
+        "description": "Gib die IP-Adresse deiner Heizung ein. Die Integration führt einen automatischen Scan durch, um deine verbauten Module (Solar, Holz, Wärmepumpe, etc.) von selbst zu erkennen!"
       }
     },
     "error": {
@@ -53,12 +47,6 @@
       },
       "setpoint_boiler": {
         "name": "Soll Kessel"
-      },
-      "ems_pv_surplus": {
-        "name": "PV Überschuss (WP)"
-      },
-      "ems_grid_limit": {
-        "name": "Netzbetreiber Limit (WP)"
       }
     },
     "switch": {
@@ -300,43 +288,6 @@
           "cleaning": "Reinigung",
           "error": "Störung",
           "unknown": "Unbekannt"
-        }
-      },
-      "target_buffer_top": {
-        "name": "Solltemperatur Puffer oben"
-      },
-      "target_boiler": {
-        "name": "Kesselsolltemperatur"
-      },
-      "heat_dhw": {
-        "name": "Wärmemenge Trinkwasser"
-      },
-      "heat_circ": {
-        "name": "Wärmemenge Zirkulation"
-      },
-      "pellet_consumption": {
-        "name": "Pelletverbrauch"
-      },
-      "ems_hp_power": {
-        "name": "Wärmepumpen Leistung"
-      },
-      "ems_heater_power": {
-        "name": "Heizstab Leistung"
-      },
-      "ems_model_id": {
-        "name": "EMS Model ID"
-      },
-      "ems_sw_version": {
-        "name": "EMS Software Version"
-      }
-    },
-    "select": {
-      "ems_tariff": {
-        "name": "Wärmepumpen Tarif",
-        "state": {
-          "no_tariff": "Kein Tarif (Normal)",
-          "high_tariff": "Hochtarif (Sperre)",
-          "low_tariff": "Niedertarif (Freigabe)"
         }
       }
     }

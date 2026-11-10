@@ -6,15 +6,9 @@
         "data": {
           "host": "IP Address",
           "port": "Port",
-          "slave_id": "Slave ID / Unit ID",
-          "solar_installed": "Solar System Installed",
-          "hk2_installed": "Heating Circuit 2 Installed",
-          "pool_installed": "Pool System Installed",
-          "room_sensor_installed": "Room Sensors Installed",
-          "boiler_installed": "Boiler (Gas/Oil) Installed",
-          "wood_installed": "Wood/Pellet Boiler Installed",
-          "scan_interval": "Update Interval (Seconds)"
-        }
+          "slave_id": "Slave ID / Unit ID"
+        },
+        "description": "Enter the IP address of your heating system. The integration will automatically scan your controller to detect installed modules (Solar, Wood, Heat Pump, etc.)."
       }
     },
     "error": {
@@ -53,12 +47,6 @@
       },
       "setpoint_boiler": {
         "name": "Setpoint Boiler"
-      },
-      "ems_pv_surplus": {
-        "name": "PV Surplus (HP)"
-      },
-      "ems_grid_limit": {
-        "name": "Grid Limit (HP)"
       }
     },
     "switch": {
@@ -300,43 +288,6 @@
           "cleaning": "Cleaning",
           "error": "Error",
           "unknown": "Unknown"
-        }
-      },
-      "target_buffer_top": {
-        "name": "Buffer top target temp"
-      },
-      "target_boiler": {
-        "name": "Boiler target temp"
-      },
-      "heat_dhw": {
-        "name": "DHW heat quantity"
-      },
-      "heat_circ": {
-        "name": "Circulation heat quantity"
-      },
-      "pellet_consumption": {
-        "name": "Pellet consumption"
-      },
-      "ems_hp_power": {
-        "name": "Heat Pump Power"
-      },
-      "ems_heater_power": {
-        "name": "Heater Rod Power"
-      },
-      "ems_model_id": {
-        "name": "EMS Model ID"
-      },
-      "ems_sw_version": {
-        "name": "EMS SW Version"
-      }
-    },
-    "select": {
-      "ems_tariff": {
-        "name": "Heat Pump Tariff",
-        "state": {
-          "no_tariff": "No Tariff (Normal)",
-          "high_tariff": "High Tariff (Block)",
-          "low_tariff": "Low Tariff (Release)"
         }
       }
     }
