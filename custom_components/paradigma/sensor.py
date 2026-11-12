@@ -12,7 +12,7 @@ _LOGGER = logging.getLogger(__name__)
 STATUS_HK = { 
     0: "off", 1: "outdoor_limit", 2: "room_limit", 3: "buffer_block", 
     4: "dhw_priority", 6: "frost", 7: "solar_excess", 8: "preheat", 
-    9: "normal", 10: "comfort", 11: "reduced", 16: "station_dhw", 17: "screed"
+    9: "normal", 10: "comfort", 11: "reduced", 16: "station_dhw", 17: "screed", 25: "control_system"
 }
 
 STATUS_WW = { 
@@ -78,8 +78,8 @@ SENSOR_DEFINITIONS = [
     # Boiler
     ("boiler_flow", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, 0.1, "input", 12, CONF_BOILER, 1),
     ("boiler_return", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, 0.1, "input", 13, CONF_BOILER, 1),
-    ("boiler_hours", UnitOfTime.HOURS, SensorDeviceClass.DURATION, 1.0, "holding_32", 27, CONF_BOILER, 1),
-    ("boiler_starts", None, None, 1.0, "holding_32", 29, CONF_BOILER, 1),
+    ("boiler_hours", UnitOfTime.HOURS, SensorDeviceClass.DURATION, 1.0, "holding_32", 27, None, 1),
+    ("boiler_starts", None, None, 1.0, "holding_32", 29, None, 1),
 
     # Wood / Pellets (FIX: Pellet addresses @31 and @33)
     ("wood_flow", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, 0.1, "input", 14, CONF_WOOD, 1),
